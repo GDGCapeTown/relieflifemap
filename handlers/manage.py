@@ -91,6 +91,10 @@ class CreateEventsHandler(webapp2.RequestHandler):
 
 	def post(self):
 
+        user = users.get_current_user()
+        if not user:
+            self.redirect(users.create_login_url(self.request.uri))
+
 		headline = str(self.request.POST.get('headline')).strip()
 		area_name = str(self.request.POST.get('area_name')).strip()
 
