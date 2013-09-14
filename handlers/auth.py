@@ -38,7 +38,18 @@ class PostLoginHandler(webapp2.RequestHandler):
 		# Normal Google User Account
 		user = users.get_current_user()
 
-		# Redirect to manage
-		self.redirect('/manage')
+		user_objs = dal.get_allowed_users()
+		for dbuser in user_objs:
+			if dbuser.email == user.email():
+				self.redirect('/manage')
+
+		self.redirect(users.create_login_url('/authfailed'))
+
+		
+class FailedLoginHandler(webapp2.RequestHandler):
+	def get(self):
+
+		template = jinja_environment.get_template('admin/failedlogin.html')
+		self.response.out.write(template.render(locales))
 
 
