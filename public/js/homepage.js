@@ -18,6 +18,29 @@ function initialize() {
 
 
 	load_events_from_map();
+
+	var drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: google.maps.drawing.OverlayType.MARKER,
+    drawingControl: true,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER,
+      drawingModes: [
+        google.maps.drawing.OverlayType.POLYGON
+      ]
+    },
+    markerOptions: {
+      icon: 'images/beachflag.png'
+    },
+    circleOptions: {
+      fillColor: '#ffff00',
+      fillOpacity: 1,
+      strokeWeight: 5,
+      clickable: false,
+      editable: true,
+      zIndex: 1
+    }
+  });
+  drawingManager.setMap(map);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -60,7 +83,7 @@ var load_events_from_map = function() {
 				$("#events-listing").html(html);
 				$("#events-listing").show();
 
-			} else $("#events-none").show();	
+			} else $("#events-none").show();
 
 			// Listen for clicks on blocks
 			$(".event-list-block").unbind();
@@ -70,15 +93,15 @@ var load_events_from_map = function() {
 				$( ".overlay" ).animate({
 
 					opacity: 0.75
-				
+
 				}, 50, function() {
-				
+
 					$( "#map-info-block" ).animate({
 
 						width: "92%"
 
 					}, 1000, function() {
-					
+
 						// Done !
 						$(".events-hide").hide();
 						$("#events-view").fadeIn();
@@ -97,7 +120,7 @@ var load_events_from_map = function() {
 
 $(document).ready(function(){
 
-	
+
 
 });
 
