@@ -45,6 +45,8 @@ class PostLoginHandler(webapp2.RequestHandler):
 
 		if len(user_objs) > 0:
 			self.redirect(users.create_logout_url('/authfailed'))
+		else:
+			self.redirect('/manage')
 
 		
 class FailedLoginHandler(webapp2.RequestHandler):
