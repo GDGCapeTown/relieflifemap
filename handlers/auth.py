@@ -39,7 +39,7 @@ class PostLoginHandler(webapp2.RequestHandler):
 		user = users.get_current_user()
 
 		user_objs = dal.get_allowed_users()
-		if user_objs:
+		if len(user_objs) > 0:
 			for dbuser in user_objs:
 				if dbuser.email == user.email():
 					self.redirect('/manage')
