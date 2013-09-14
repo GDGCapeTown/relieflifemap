@@ -24,7 +24,7 @@ class Event(db.Model):
 	severity = db.IntegerProperty()
 	location = db.GeoPtProperty(required=True)
 
-	active = BooleanProperty(default=False)
+	active = db.BooleanProperty(default=False)
 
 	description = db.Text()
 	how_to_help = db.Text()

@@ -25,6 +25,9 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader('views'))
 class ListEventsHandler(webapp2.RequestHandler):
 	def get(self):
 
+		# Get the events
+		event_objs = dal.get_events()
+
 		# Locales
 		locales = {
 			'title': 'Welcome',
