@@ -39,12 +39,12 @@ class PostLoginHandler(webapp2.RequestHandler):
 		user = users.get_current_user()
 
 		user_objs = dal.get_allowed_users()
-		if len(user_objs) > 0:
-			for dbuser in user_objs:
-				if dbuser.email == user.email():
-					self.redirect('/manage')
+		for dbuser in user_objs:
+			if dbuser.email == user.email():
+				self.redirect('/manage')
 
-		self.redirect(users.create_logout_url('/authfailed'))
+		if len(user_objs) > 0:
+			self.redirect(users.create_logout_url('/authfailed'))
 
 		
 class FailedLoginHandler(webapp2.RequestHandler):
