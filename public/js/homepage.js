@@ -3,7 +3,7 @@ var map = null;
 function initialize() {
 
 	var mapOptions = {
-	center: new google.maps.LatLng(-34.397, 150.644),
+	center: new google.maps.LatLng(-33.987210, 18.558585),
 	zoom: 8,
 	mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
@@ -15,6 +15,42 @@ function initialize() {
 		load_events_from_map();
 
 	});
+	
+	var stuffToPlot = [
+                new google.maps.LatLng(-33.904616, 18.416605),
+                new google.maps.LatLng(-33.987210, 18.338585),
+                new google.maps.LatLng(-34.112373, 18.829536),
+                new google.maps.LatLng(-33.874976, 18.733063)
+        ];
+    var drawingManager = new google.maps.drawing.DrawingManager({
+		drawingMode: google.maps.drawing.OverlayType.MARKER,
+		drawingControl: true,
+		drawingControlOptions: {
+		position: google.maps.ControlPosition.TOP_CENTER,
+		drawingModes: [
+        google.maps.drawing.OverlayType.POLYGON
+      ]
+    },
+    circleOptions: {
+      fillColor: '#ffff00',
+      fillOpacity: 1,
+      strokeWeight: 5,
+      clickable: false,
+      editable: true,
+      zIndex: 1
+    }
+  });
+   somePolygon = new google.maps.Polygon({
+    paths: stuffToPlot,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35
+  });
+  somePolygon.setMap(map);
+  drawingManager.setMap(map);
+
 
 
 	load_events_from_map();
