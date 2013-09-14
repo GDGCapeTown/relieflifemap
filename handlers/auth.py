@@ -44,7 +44,7 @@ class PostLoginHandler(webapp2.RequestHandler):
 				if dbuser.email == user.email():
 					self.redirect('/manage')
 
-		self.redirect(users.create_login_url('/authfailed'))
+		self.redirect(users.create_logout('/authfailed'))
 
 		
 class FailedLoginHandler(webapp2.RequestHandler):
