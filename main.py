@@ -36,5 +36,6 @@ app = webapp2.WSGIApplication([
 								('/events/create', CreateEventsHandler),
 								('/events/edit/(\d+)', UpdateEventsHandler),
 								('/events/delete/(\d+)', DeleteEventsHandler)
+                                ('/users', ListAllowedUsers),
 
 							], debug=True, config=config)
