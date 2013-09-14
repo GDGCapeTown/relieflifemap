@@ -50,6 +50,6 @@ class FailedLoginHandler(webapp2.RequestHandler):
 	def get(self):
 
 		template = jinja_environment.get_template('admin/failedlogin.html')
-		self.response.out.write(template.render(locales))
+		self.response.out.write(template.render())
 
 
