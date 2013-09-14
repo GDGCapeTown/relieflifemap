@@ -22,4 +22,4 @@ def get_events(active=False, limit=1, offset=0, lat=None, lng=None):
 
 
 def get_allowed_users():
-    result = db.GqlQuery("")
+    return schemas.AllowedUser.all().run()
