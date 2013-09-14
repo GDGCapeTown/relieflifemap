@@ -5,6 +5,22 @@
 
 {% block base_content %}
 	
-	<p>welcome !!!!</p>
+    {% if events %}
+        <table>
+            <tr><td>Headline</td><td>Date of event</td></tr>
+        {% for event in events %}
+            <tr>
+                <td>
+                    {{event.headline}}
+                </td>
+                <td>
+                    {{event.date_of_incident}}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        No events found.
+    {% endif %}
 
 {% endblock %}
