@@ -82,7 +82,7 @@ class UpdateEventsHandler(webapp2.RequestHandler):
 		}
 
 		# Render the template
-		template = jinja_environment.get_template('admin/events/list.html')
+		template = jinja_environment.get_template('admin/events/save.html')
 		self.response.out.write(template.render(locales))
 
 
@@ -93,7 +93,8 @@ class UpdateEventsHandler(webapp2.RequestHandler):
 class DeleteEventsHandler(webapp2.RequestHandler):
 	def get(self, event_uid):
 
+		# Delete the Event
 		event_obj = schemas.Event.get_by_id(int(event_uid))
-		event_obj.remove()
+		event_obj.delete()
 		self.redirect('/manage')
-		
+

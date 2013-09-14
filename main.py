@@ -33,6 +33,8 @@ app = webapp2.WSGIApplication([
 								( '/signin', LoginHandler ),
 								( '/auth', PostLoginHandler ),
 								('/manage', ListEventsHandler),
+								('/events/create', DeleteEventsHandler),
+								('/events/edit/(\d+)', DeleteEventsHandler),
 								('/events/delete/(\d+)', DeleteEventsHandler)
 
 							], debug=True, config=config)
