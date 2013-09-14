@@ -41,6 +41,24 @@ class ListEventsHandler(webapp2.RequestHandler):
 		self.response.out.write(template.render(locales))
 
 
+class ViewEventsHandler(webapp2.RequestHandler):
+	def get(self):
+
+		# Get the events
+		event_objs = [] # dal.get_events()
+
+		# Locales
+		locales = {
+			'title': 'Welcome',
+			'description': 'Search Microchips',
+			'event_objs': event_objs,
+			'user': users.get_current_user()
+		}
+
+		# Render the template
+		template = jinja_environment.get_template('admin/events/view.html')
+		self.response.out.write(template.render(locales))
+
 
 #
 # Acts as the Frontpage when users are not signed in and the dashboard when they are.
