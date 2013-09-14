@@ -26,18 +26,74 @@ class ListEventsHandler(webapp2.RequestHandler):
 	def get(self):
 
 		# Get the events
-		event_objs = dal.get_events()
+		event_objs = [] # dal.get_events()
 
 		# Locales
 		locales = {
 			'title': 'Welcome',
 			'description': 'Search Microchips',
-			'user': users.get_current_user(),
-			'is_current_user_admin': users.is_current_user_admin()
+			'event_objs': event_objs,
+			'user': users.get_current_user()
 		}
 
 		# Render the template
-		template = jinja_environment.get_template('admin/events.html')
+		template = jinja_environment.get_template('admin/events/list.html')
 		self.response.out.write(template.render(locales))
 
 
+
+#
+# Acts as the Frontpage when users are not signed in and the dashboard when they are.
+# @author Johann du Toit
+#
+class CreateEventsHandler(webapp2.RequestHandler):
+	def get(self):
+
+		# Locales
+		locales = {
+			'title': 'Welcome',
+			'description': 'Search Microchips',
+			'event_objs': event_objs,
+			'user': users.get_current_user(),
+			'errors': []
+		}
+
+		# Render the template
+		template = jinja_environment.get_template('admin/events/save.html')
+		self.response.out.write(template.render(locales))
+
+
+#
+# Acts as the Frontpage when users are not signed in and the dashboard when they are.
+# @author Johann du Toit
+#
+class UpdateEventsHandler(webapp2.RequestHandler):
+	def get(self):
+
+		# Get the events
+		event_objs = [] # dal.get_events()
+
+		# Locales
+		locales = {
+			'title': 'Welcome',
+			'description': 'Search Microchips',
+			'event_objs': event_objs,
+			'user': users.get_current_user()
+		}
+
+		# Render the template
+		template = jinja_environment.get_template('admin/events/list.html')
+		self.response.out.write(template.render(locales))
+
+
+#
+# Acts as the Frontpage when users are not signed in and the dashboard when they are.
+# @author Johann du Toit
+#
+class DeleteEventsHandler(webapp2.RequestHandler):
+	def get(self, event_uid):
+
+		event_obj = schemas.Event.get_by_id(int(event_uid))
+		event_obj.remove()
+		self.redirect('/manage')
+		
