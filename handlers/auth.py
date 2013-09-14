@@ -39,9 +39,10 @@ class PostLoginHandler(webapp2.RequestHandler):
 		user = users.get_current_user()
 
 		user_objs = dal.get_allowed_users()
-		for dbuser in user_objs:
-			if dbuser.email == user.email():
-				self.redirect('/manage')
+		if user_objs:
+			for dbuser in user_objs:
+				if dbuser.email == user.email():
+					self.redirect('/manage')
 
 		self.redirect(users.create_login_url('/authfailed'))
 
