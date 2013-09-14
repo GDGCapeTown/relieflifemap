@@ -9,16 +9,16 @@
 
     <form name=event method=post action="{% if event.id %}/events/update{% else %}/events/create{% endif %}">
         Headline:
-        <input type=text id=headline {% if event %} value={{event.headline}} {% endif %} />
+        <input type=text name=headline {% if event %} value={{event.headline}} {% endif %} />
 
         Radius area of impact:
-        <input type=text id=area {% if event %} value={{event.area}} {% endif %} />
+        <input type=text name=area {% if event %} value={{event.area}} {% endif %} />
 
         Area name:
-        <input type=text id=area {% if event %} value={{event.area_name}} {% endif %} />
+        <input type=text name=area {% if event %} value={{event.area_name}} {% endif %} />
 
         Severity:
-        <select id=severity>
+        <select name=severity>
             <option value=1 {% if event %} {% if event.severity == 1 %}selected=selected{% endif %}{% endif %}>1</option>
             <option value=2 {% if event %} {% if event.severity == 2 %}selected=selected{% endif %}{% endif %}>2</option>
             <option value=3 {% if event %} {% if event.severity == 3 %}selected=selected{% endif %}{% endif %}>3</option>
@@ -26,23 +26,23 @@
             <option value=5 {% if event %} {% if event.severity == 5 %}selected=selected{% endif %}{% endif %}>5</option>
         </select>
 
-        <input type="checkbox" id=active> 
+        <input type="checkbox" name=active> 
         This event is active
 
         Date of incident:
-        <input type=text id=dateofincident />
+        <input type=text name=dateofincident />
 
         Latitude:
-        <input type=text id=lat />
+        <input type=text name=lat />
 
         Longitude:
-        <input type=text id=lon />
+        <input type=text name=lon />
 
         Description:
-        <input type=textarea id=description />
+        <input type=textarea name=description />
 
         Items of help needed:
-        <input type=textarea id=description />
+        <input type=textarea name=description />
 
         <input type="submit" value="Create" />
 

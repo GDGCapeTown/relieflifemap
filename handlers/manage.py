@@ -83,10 +83,13 @@ class CreateEventsHandler(webapp2.RequestHandler):
 
 	def post(self):
 
+		headline = str(self.request.POST.get('headline')).strip()
+		area_name = str(self.request.POST.get('area_name')).strip()
+
 		event_obj = schemas.Event(
 
-				headline="test #1",
-				area_name="test 2",
+				headline=headline,
+				area_name=area_name,
 				location=None
 
 			)
@@ -129,7 +132,8 @@ class UpdateEventsHandler(webapp2.RequestHandler):
 		if event_obj:
 
 			# Post Update
-			event_obj.headline = "Test #1"
+			event_obj.headline = str(self.request.POST.get('headline')).strip()
+			event_obj.area_name = str(self.request.POST.get('area_name')).strip()
 			event_obj.put()
 
 		else:
