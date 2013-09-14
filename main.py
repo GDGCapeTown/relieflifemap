@@ -18,6 +18,7 @@ import dal
 
 # Setup the Handlers
 from handlers.homepage import HomepageHandler
+from handlers.auth import LoginHandler
 
 config = {}
 config['webapp2_extras.sessions'] = {
@@ -25,5 +26,6 @@ config['webapp2_extras.sessions'] = {
 }
 
 # Register Routes
-app = webapp2.WSGIApplication([('/', HomepageHandler)],
+app = webapp2.WSGIApplication([('/', HomepageHandler),
+								( '/signin', LoginHandler )],
 								debug=True, config=config)
