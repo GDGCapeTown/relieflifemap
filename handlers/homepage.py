@@ -25,16 +25,17 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader('views'))
 class HomepageHandler(webapp2.RequestHandler):
 	def get(self):
 
+		user_obj = users.get_current_user()
+
 		# Locales
 		locales = {
-			'title': 'Welcome',
-			'description': 'Search Microchips',
-			'user': users.get_current_user(),
-			'is_current_user_admin': users.is_current_user_admin()
+			'title': '',
+			'description': '',
+			'user': user_obj
 		}
 
 		# Render the template
-		template = jinja_environment.get_template('homepage.html')
+		template = jinja_environment.get_template('page.html')
 		self.response.out.write(template.render(locales))
 
 

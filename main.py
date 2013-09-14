@@ -18,7 +18,7 @@ import dal
 
 # Setup the Handlers
 from handlers.homepage import HomepageHandler
-from handlers.auth import LoginHandler, PostLoginHandler, FailedLoginHandler
+from handlers.auth import LoginHandler, PostLoginHandler, FailedLoginHandler, LogoutHandler
 from handlers.events import ListAPIEventsHandler, ListEventsHandler, DeleteEventsHandler, CreateEventsHandler, UpdateEventsHandler
 from handlers.users import ListUserHandler, CreateUserHandler, DeleteUserHandler
 
@@ -32,6 +32,7 @@ app = webapp2.WSGIApplication([
 
 								('/', HomepageHandler),
 								( '/signin', LoginHandler ),
+								( '/logout', LogoutHandler ),
 								( '/auth', PostLoginHandler ),
 								('/events.json', ListAPIEventsHandler),
 								( '/authfailed', FailedLoginHandler ),

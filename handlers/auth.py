@@ -28,6 +28,18 @@ class LoginHandler(webapp2.RequestHandler):
 		# Normal Google User Account
 		self.redirect(users.create_login_url('/auth'))
 
+
+#
+# Acts as the Frontpage when users are not signed in and the dashboard when they are.
+# @author Johann du Toit
+#
+class LogoutHandler(webapp2.RequestHandler):
+	def get(self):
+
+		# Send to logout
+		self.redirect(users.create_logout_url('/'))
+
+
 #
 # Acts as the Frontpage when users are not signed in and the dashboard when they are.
 # @author Johann du Toit
@@ -41,12 +53,12 @@ class PostLoginHandler(webapp2.RequestHandler):
 		user_objs = dal.get_allowed_users()
 		for dbuser in user_objs:
 			if dbuser.email == user.email():
-				self.redirect('/manage')
+				self.redirect('/')
 
 		if len(user_objs) > 0:
 			self.redirect(users.create_logout_url('/authfailed'))
 		else:
-			self.redirect('/manage')
+			self.redirect('/')
 
 		
 class FailedLoginHandler(webapp2.RequestHandler):

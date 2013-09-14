@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/css/bootstrap.min.css?version=7" />
+		<link rel="stylesheet" href="/css/lightbox.css?version=7" />
+		<link rel="stylesheet" href="/css/style.css?version=7" />
+		<title>Disaster Management | Reflief Life Map</title>
+
+		<meta name="description" value="{{description}}" />
+		<meta name="keywords" value="{% if keywords %}, {{keywords}}{% endif %} " />
+		<meta name="author" value="{% if author %}{{author}}{% else %}Reflief Life Map{% endif %} " />
+
+		{% block head %}{% endblock %}
+		{% block styles %}{% endblock %}
+	</head>
+	<body>
+
+		<div class="overlay" style="display:none;opacity:0.25;"></div>
+
+		<div id="map-canvas"></div>
+
+		<div id="map-info-block">
+
+			<div id="map-info-block-inner">
+
+				<div id="map-info-block-inner-header">
+
+					<div style="margin: 15px;">
+
+						{% if user %}
+
+						<a style="float:right;" href="/logout" class="btn btn-danger btn-small">Logout</a>
+						<a id="btn_create_event" style="float:right;margin-right:7px;" href="/logout" class="btn btn-primary btn-small">Create</a>
+
+						{% else %}
+
+						<a style="float:right;" href="/signin" class="btn btn-primary btn-small">Signin</a>
+
+						{% endif %}
+
+						<img src="http://relieflife.org/images/structure/logo.jpg" style="height:46px;" />
+
+					</div>
+
+				</div>
+
+				<div id="events-view" class="events-hide" style="display:none;">
+
+					<h1 style="margin: 15px;">Event Details</h1>
+
+				</div>
+
+				<div id="events-loading" class="events-hide" style="display:none;">
+
+					<center>
+						<img src="http://relieflife.org/images/structure/logo.jpg" style="margin-top: 150px;" />
+						<h3>Loading disasters</h3>
+					</center>
+
+				</div>
+
+				<div id="events-listing" style="display:none;" class="events-hide">
+				</div>
+
+				<div id="events-none" style="display:none;" class="events-hide">
+					<center>
+						<img src="http://relieflife.org/images/structure/logo.jpg" style="margin-top: 150px;" />
+						<h3>No disasters, happy day</h3>
+					</center>
+				</div>
+			
+			</div>
+
+		</div>
+		
+		<script type="text/javascript" src="/js/jquery-1.8.2.js"></script>
+		<script type="text/javascript" src="/js/prettify.min.js"></script>
+		<script type="text/javascript">window.prettyPrint && prettyPrint()</script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript" src="/js/app.js"></script>
+
+		{% block scripts %}{% endblock %}
+		{% block base_scripts %}{% endblock %}
+	</body>
+</html>
