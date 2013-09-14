@@ -16,21 +16,30 @@ import logging
 # Provider Schema
 # @author Johann du Toit
 #
-class Provider(db.Model):
-	name = db.StringProperty(required=True)
-	logo = blobstore.BlobReferenceProperty()
-	secret = db.StringProperty()
-	website = db.StringProperty()
-	api_url = db.StringProperty()
-	approved = db.BooleanProperty()
-	tested = db.BooleanProperty()
-	groups = db.StringProperty()
+class Event(db.Model):
+	headline = db.StringProperty(required=True)
+	area = db.IntegerProperty()
+	area_name = db.StringProperty(required=True)
+
+	min_reach = db.NumberProperty()
+	max_reach = db.NumberProperty()
+	location = ndb.GeoPtProperty(required=True)
+
+	description = db.Text()
+	how_to_help = db.Text()
+	date_of_incident = db.BooleanProperty()
 	created = db.DateTimeProperty(auto_now_add=True)
 	lastupdated = db.DateTimeProperty(auto_now_add=True)
 
-	# Returns the Logo URL
-	def logo_url(self, size):
-		if self.logo:
-			return images.get_serving_url(self.logo.key(), size)
-		else:
-			return "/img/defaults/provider.png"
+#
+# 
+# @author Johann du Toit
+#
+class AllowedUser(db.Model):
+
+	name = db.StringProperty(required=True)
+	email = db.StringProperty(required=True)
+
+	created = db.DateTimeProperty(auto_now_add=True)
+	lastupdated = db.DateTimeProperty(auto_now_add=True)
+
