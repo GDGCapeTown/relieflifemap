@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/css/bootstrap.min.css?version=7" />
+		<link rel="stylesheet" href="/css/lightbox.css?version=7" />
+		<link rel="stylesheet" href="/css/style.css?version=7" />
+		<title>Disaster Management - Reflief Life</title>
+
+		<meta name="description" value="{{description}}" />
+		<meta name="keywords" value="{% if keywords %}, {{keywords}}{% endif %} " />
+		<meta name="author" value="{% if author %}{{author}}{% else %}Reflief Life Map{% endif %} " />
+
+		{% block head %}{% endblock %}
+		{% block styles %}{% endblock %}
+	</head>
+	<body>
+
+		<div class="overlay" style="display:none;opacity:0.25;"></div>
+
+		<div class="overhead-header" id="header-select-region">
+
+			<div style="float:right;margin: 25px;">
+
+				<a href="javascript:void(0);" class="btn btn-warning btn-small btn_center_map">My current location</a>
+				
+			</div>
+			
+			<h3 class="overhead-title">Select the region of the disaster</h3>
+
+		</div>
+
+		<div id="map-canvas" class="mapping-canvas"></div>
+		<div id="select-point-map-canvas" class="mapping-canvas" style="display:none;"></div>
+
+		<div id="map-info-block">
+
+			<div id="map-info-block-inner">
+
+				<div id="map-info-block-inner-header">
+
+					<div style="margin: 15px;">
+
+						<div class="extended_close" style="float:right;">
+
+							{% if user %}
+
+							<a id="btn_create_event" style="margin-right:7px;" href="#" class="btn btn-primary btn-small">Create</a>
+							<a href="/logout" class="btn btn-danger btn-small">Logout</a>
+
+							{% else %}
+
+							<a style="" href="/signin" class="btn btn-primary btn-small">Signin</a>
+
+							{% endif %}
+
+						</div>
+
+						<div class="extended_open" style="float:right;display:none;">
+
+							<a href="javascript:void(0);" class="btn btn-danger btn-small btn_extended_close">Close</a>
+
+						</div>
+
+						<img src="http://relieflife.org/images/structure/logo.jpg" style="height:46px;" />
+
+					</div>
+
+				</div>
+
+				{% if user %}
+
+				<div id="events-create" class="events-hide" style="display:none;">
+
+					<div style="margin: 15px;">
+
+						<h1 style="">Create Event</h1>
+
+						<form action="#">
+
+							<div style="float:right;width: 50%;margin:0;padding:0;">
+
+								<input id="txt_create_reach" type="text" class="big-search" placeholder="Reach (People this affects)" style="margin: 0;margin-bottom: 10px;width: 35%;" />
+								
+								<input id="txt_create_date" type="text" class="big-search" placeholder="Date of the Event" style="margin: 0;margin-bottom: 10px;width: 60.5%;display:inline-block;" />
+								<div class="clearfix"></div>
+
+								<textarea id="txt_create_howtohelp"  placeholder="How to Help nice big description here" style="height: 280px;"></textarea>
+
+							</div>
+
+							<div style="float:left;width: 50%;margin:0;padding:0;">
+
+								<input id="txt_create_headline" type="text" class="big-search" placeholder="Headline" style="margin: 0;margin-bottom: 10px;" />
+								<div class="clearfix"></div>
+
+								<textarea id="txt_create_desc" placeholder="Description of Event" style="height: 280px;"></textarea>
+
+								<div class="clearfix"></div>
+
+								<a href="javascript:void(0);" id="btn_select_create_event_points" class="btn btn-primary btn-large">Next up select your points</a>
+
+							</div>
+
+						</form>
+
+					</div>
+
+				</div>
+
+				{% endif %}
+
+				<div id="events-view" class="events-hide" style="display:none;">
+
+					<h1 style="margin: 15px;">Event Details</h1>
+
+				</div>
+
+				<div id="events-loading" class="events-hide" style="display:none;">
+
+					<center>
+						<img src="http://relieflife.org/images/structure/logo.jpg" style="margin-top: 150px;" />
+						<h3>Loading disasters</h3>
+					</center>
+
+				</div>
+
+				<div id="events-listing" style="display:none;" class="events-hide">
+				</div>
+
+				<div id="events-none" style="display:none;" class="events-hide">
+					<center>
+						<img src="http://relieflife.org/images/structure/logo.jpg" style="margin-top: 150px;" />
+						<h3>No disasters, happy day</h3>
+					</center>
+				</div>
+			
+			</div>
+
+		</div>
+		
+		<script type="text/javascript" src="/js/jquery-1.8.2.js"></script>
+		<script type="text/javascript" src="/js/prettify.min.js"></script>
+		<script type="text/javascript">window.prettyPrint && prettyPrint()</script>
+		<script type="text/javascript" src="/js/underscore-min.js"></script>
+		<script type="text/javascript" src="/js/async.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
+		<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script> -->
+		<script type="text/javascript" src="/js/app.js"></script>
+
+		{% block scripts %}{% endblock %}
+		{% block base_scripts %}{% endblock %}
+	</body>
+</html>

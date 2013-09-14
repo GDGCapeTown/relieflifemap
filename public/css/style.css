@@ -10,6 +10,8 @@ html {
 	color: #7d7d7d;
 }
 
+body { margin: 0; padding: 0; }
+
 h1, h2, h3, h4, h5, h6 {
 
 	font-family: 'WebServeroffRegular', Sans-Serif;
@@ -17,18 +19,15 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
-body { margin: 0; padding: 0; }
-#map-canvas { height: 100% }
+.mapping-canvas { 
 
-
-#map-canvas {
+	height: 100%;
 
 	position: fixed !important;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-
 
 }
 
@@ -85,7 +84,7 @@ body { margin: 0; padding: 0; }
 
 }
 
-.event-list-block:hover {
+.event-list-block:hover, .event-list-block.active {
 
 	text-decoration: none;
 	background-color: whitesmoke;
@@ -133,4 +132,53 @@ body { margin: 0; padding: 0; }
 	
 	display: inline-block;
 
+}
+
+.overhead-header {
+
+	display: none;
+	border-bottom: 1px solid #333;
+	background-color: whitesmoke;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+
+}
+
+.overhead-header .overhead-title {
+
+	margin: 25px;
+
+}
+
+
+select, textarea, input[type="text"], input[type="password"], input[type="file"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, .faux-file {
+display: inline-block;
+padding: 0 .4em 0 .4em;
+margin-bottom: 2em;
+vertical-align: middle;
+border-radius: 3px;
+min-width: 50px;
+max-width: 550px;
+}
+textarea, input[type="text"], input[type="password"], input[type="file"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, .faux-file {
+width: 100%;
+min-height: 36px;
+background-color: #fff;
+border: 2px solid #c8c8c8;
+margin: 0 0 30px 0;
+}
+
+.big-search input {
+color: #727272;
+vertical-align: middle;
+font-size: 24px;
+font-weight: 300;
+background: transparent;
+padding: 0 60px 0 155px;
+min-width: 100%;
+height: 50px;
+line-height: 50px;
 }

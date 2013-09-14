@@ -16,7 +16,9 @@ import schemas
 
 def get_events(active=False, limit=None, offset=0, lat=None, lng=None):
     q = schemas.Event.all()
-    q.filter('active =', active)
+
+    if active != None:
+    	q.filter('active =', active)
 
     return q.fetch(limit=limit, offset=offset)
 
