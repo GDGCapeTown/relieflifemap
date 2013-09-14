@@ -84,7 +84,7 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
-.event-list-block:hover {
+.event-list-block:hover, .event-list-block.active {
 
 	text-decoration: none;
 	background-color: whitesmoke;

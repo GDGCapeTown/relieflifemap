@@ -41,6 +41,7 @@ class ListAPIEventsHandler(webapp2.RequestHandler):
 
 			output_event.append( {
 
+				'id': event_obj.key().id(),
 				'headline': event_obj.headline,
 				'description': event_obj.description,
 				'reach': event_obj.reach,
