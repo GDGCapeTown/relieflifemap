@@ -15,8 +15,6 @@ class ListUserHandler(webapp2.RequestHandler):
     def get(self):
         user_objs = dal.get_allowed_users()
 
-        print len(user_objs)
-
         locales = {
 			'title': 'Users',
 			'description': 'All Allowed Users',
