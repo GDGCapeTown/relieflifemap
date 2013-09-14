@@ -1,7 +1,79 @@
 (function(){
 
+	// Shown
+	var event_objs_currently_shown = [];
+
+	// The queue
+	var request_queue = async.queue(function (task, callback) {
+
+		get_events_by_filter(task.query, task.lat, task.lng, function(err, eventing_objs){
+
+			event_objs_currently_shown = eventing_objs;
+			callback();
+
+		});
+
+	}, 1);
+
+	// Render the items
+	request_queue.drain = function() {
+
+		$(".events-hide").hide();
+
+		if(event_objs_currently_shown && event_objs_currently_shown.length > 0) {
+
+			var html = '';
+
+			$(event_objs_currently_shown).each(function(){
+				var event_obj = this;
+
+				html = html + '<a href="#" class="event-list-block"> \
+						<h4>' + event_obj.headline + '</h4> \
+						<span class="reach"> \
+							<img src="/img/reach.png" /> \
+							<h6>4000 people</h6> \
+						</span> \
+					</a>';
+
+			});
+
+			$("#events-listing").html(html);
+			$("#events-listing").show();
+
+		} else $("#events-none").show();	
+
+		// Listen for clicks on blocks
+		$(".event-list-block").unbind();
+		$(".event-list-block").on('click', function(){
+
+			handle_extended_view_open('#events-view', function(){});
+
+		});
+
+	}
+
 	// Variable for local reference to map.
 	var main_map = null;
+	var select_map = null;
+
+	/**
+	* Shows a header
+	**/
+	var header_show = function(block) {
+
+		$(".overhead-header").hide();
+		if(block) $(block).slideDown();
+
+	};
+
+	/**
+	* Shows a header
+	**/
+	var header_hide = function(block) {
+
+		$(".overhead-header").slideUp();
+
+	};
 
 	/**
 	* Returns the current lat and lng
@@ -54,7 +126,27 @@
 	var handle_binding_setup = function() {
 
 		// Setup our button to create
-		$("#btn_create_event").click(function(){});
+		$("#btn_create_event").click(function(){
+
+			// Force it open
+			handle_extended_view_open('#events-create', function(){
+
+				// Set
+
+			});
+
+			// Stop it here
+			return false;
+
+		});
+
+		$("#btn_select_create_event_points").click(function(){
+
+			$("#map-info-block").hide();
+			$(".overlay").hide();
+			header_show('#header-select-region');
+
+		});
 
 	};
 
@@ -66,10 +158,20 @@
 		// Get the latlng
 		var latlng = get_center_latlng();
 
-		// Get the events
-		get_events_by_filter(null, latlng.lat, latlng.lng, function(err, event_objs){
+		// Setup Loading
+		$(".events-hide").hide();
+		$("#events-loading").show();
 
-			console.log(event_objs.length);
+		// Render !
+		request_queue.push({
+
+			lat: latlng.lat,
+			lng: latlng.lng,
+			query: ''
+
+		}, function(err){
+
+			// Bla !
 
 		});
 
@@ -96,6 +198,11 @@
 
 		// Listen for the center change !
 		google.maps.event.addListener(main_map, 'center_changed', handle_center_change_of_map);
+
+		// select-point-map-canvas
+
+		// Setup center
+		handle_center_change_of_map();
 
 		// Setup bindings
 		handle_binding_setup();
