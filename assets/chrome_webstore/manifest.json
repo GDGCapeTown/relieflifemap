@@ -1,0 +1,19 @@
+{
+  "name": "IdentiChip",
+  "description": "Search Microchip Providers Around the World",
+  "version": "1",
+  "manifest_version": 2,
+  "app": {
+    "urls": [
+      "*://www.identichip.org/"
+    ],
+    "launch": {
+      "web_url": "http://www.identichip.org/"
+    }
+  },
+  "icons": {
+    "128": "logo_128.png"
+  },
+  "permissions": [
+  ]
+}

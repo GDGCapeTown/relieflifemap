@@ -1,0 +1,16 @@
+/**
+* Configure settings for the website.
+* Some settings required for the website to work.
+**/
+{
+	/** Secret Key of the OAuth Client **/
+	"secret":"",
+	/** Client ID / Key of the OAuth Client **/
+	"key": "",
+	/** Address to Send Mail From **/
+	"from_mail_addr": "noreply@identichip.org"
+	/** App Name as indicated in app.yaml **/
+	"app_name": "",
+	/** The Secret used by Cron Job in Google Apps Script **/
+	"apps_secret": 'secret email here'
+}
