@@ -10,6 +10,7 @@ import jinja2
 import os
 import time
 import logging
+import json
 import uuid
 
 # Custom Apis
@@ -18,6 +19,31 @@ import schemas
 
 # Setup our Jinja Runner
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader('views'))
+
+#
+# Acts as the Frontpage when users are not signed in and the dashboard when they are.
+# @author Johann du Toit
+#
+class ListAPIEventsHandler(webapp2.RequestHandler):
+	def get(self):
+
+		# Get the events
+		event_objs = dal.get_events(active=False)
+
+		output_event = []
+
+		for event_obj in event_objs:
+
+			output_event.append( {
+
+				'headline': event_obj.headline,
+				'area_name': event_obj.area_name,
+				'description': event_obj.description,
+				'how_to_help': event_obj.how_to_help,
+
+			} )
+
+		self.response.out.write(json.dumps(output_event))
 
 #
 # Acts as the Frontpage when users are not signed in and the dashboard when they are.
