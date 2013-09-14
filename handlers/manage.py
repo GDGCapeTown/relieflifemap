@@ -26,9 +26,9 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader('views'))
 class ListEventsHandler(webapp2.RequestHandler):
 	def get(self):
 
-        user = users.get_current_user()
-        if not user:
-            self.redirect(users.create_login_url(self.request.uri))
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
 
 		# Get the events
 		event_objs = dal.get_events()
@@ -72,9 +72,9 @@ class ViewEventsHandler(webapp2.RequestHandler):
 class CreateEventsHandler(webapp2.RequestHandler):
 	def get(self):
 
-        user = users.get_current_user()
-        if not user:
-            self.redirect(users.create_login_url(self.request.uri))
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
 
 		# Locales
 		locales = {
@@ -91,9 +91,9 @@ class CreateEventsHandler(webapp2.RequestHandler):
 
 	def post(self):
 
-        user = users.get_current_user()
-        if not user:
-            self.redirect(users.create_login_url(self.request.uri))
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
 
 		headline = str(self.request.POST.get('headline')).strip()
 		area_name = str(self.request.POST.get('area_name')).strip()
@@ -118,9 +118,9 @@ class CreateEventsHandler(webapp2.RequestHandler):
 class UpdateEventsHandler(webapp2.RequestHandler):
 	def get(self, event_uid):
 
-        user = users.get_current_user()
-        if not user:
-            self.redirect(users.create_login_url(self.request.uri))
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
 
 		event_obj = schemas.Event.get_by_id(int(event_uid))
 
@@ -143,9 +143,9 @@ class UpdateEventsHandler(webapp2.RequestHandler):
 
 	def post(self):
 
-        user = users.get_current_user()
-        if not user:
-            self.redirect(users.create_login_url(self.request.uri))
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
 
 		event_obj = schemas.Event.get_by_id(int(event_uid))
 
@@ -169,9 +169,9 @@ class UpdateEventsHandler(webapp2.RequestHandler):
 class DeleteEventsHandler(webapp2.RequestHandler):
 	def get(self, event_uid):
 
-        user = users.get_current_user()
-        if not user:
-            self.redirect(users.create_login_url(self.request.uri))
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
 
 		# Delete the Event
 		event_obj = schemas.Event.get_by_id(int(event_uid))
