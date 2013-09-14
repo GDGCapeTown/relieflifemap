@@ -14,6 +14,7 @@ import uuid
 
 # Custom Apis
 import dal
+import schemas
 
 # Setup our Jinja Runner
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader('views'))
@@ -53,7 +54,7 @@ class CreateEventsHandler(webapp2.RequestHandler):
 		locales = {
 			'title': 'Welcome',
 			'description': 'Search Microchips',
-			'event_objs': event_objs,
+			'event': {},
 			'user': users.get_current_user(),
 			'errors': []
 		}
@@ -95,6 +96,8 @@ class DeleteEventsHandler(webapp2.RequestHandler):
 
 		# Delete the Event
 		event_obj = schemas.Event.get_by_id(int(event_uid))
-		event_obj.delete()
+		if event_obj:
+			event_obj.delete()
+
 		self.redirect('/manage')
 
