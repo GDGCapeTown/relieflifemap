@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+
+		{% include "map-head.html" %}
 		<link rel="stylesheet" href="/css/bootstrap.min.css?version=7" />
 		<link rel="stylesheet" href="/css/lightbox.css?version=7" />
 		<link rel="stylesheet" href="/css/style.css?version=7" />
@@ -20,9 +22,10 @@
 			<a href="/signin">Signin to Manage Events</a>
 
 			{% block base_content %}No Content on this Page!{% endblock %}
+			{% include "map-body.html" %}
 
 		</div>
-		
+
 		<script type="text/javascript" src="/js/jquery-1.8.2.js"></script>
 		<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/js/prettify.min.js"></script>
