@@ -21,5 +21,5 @@ def get_events(active=False, limit=None, offset=0, lat=None, lng=None):
     return q.fetch(limit=limit, offset=offset)
 
 
-def get_allowed_users():
-    return schemas.AllowedUser.all().run()
+def get_allowed_users(limit=None):
+    return schemas.AllowedUser.all().fetch(limit=limit)
