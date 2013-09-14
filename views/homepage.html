@@ -2,90 +2,11 @@
 
 {% block scripts %}
 
-<script type="text/javascript" src="/js/search.js" />
 
 {% endblock %}
 
 {% block base_content %}
 	
-	<div class="row">
-		<div class="span10 offset1" style="">
-
-			<div class="outer-wrapper">
-
-				<div class="inner-wrapper">
-
-					<div class="row-fluid">
-
-						<div class="span12 planet" style="height: 500px;">
-
-							<div style="position:absolute;bottom:0;left:0;">
-
-								<!-- Place this tag where you want the +1 button to render. -->
-								<div style="margin-left: 20px;margin-bottom:15px;">
-									<div class="g-plusone" data-annotation="inline" data-width="300"></div>
-								</div>
-
-								<!-- Place this tag after the last +1 button tag. -->
-								<script type="text/javascript">
-								  (function() {
-								    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-								    po.src = 'https://apis.google.com/js/plusone.js';
-								    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-								  })();
-								</script>
-
-							</div>
-
-							<ul class="top-nav" style="float:right;margin-right: 20px;">
-
-								{% if user %}
-								<li><a href="/profile"><strong>{{ user.email() }}</strong></a></li>
-
-								{% if is_current_user_admin %}
-								<li><a href="/admin"><strong>Admin</strong></a></li>
-								{% endif %}
-
-								<li><a href="/logout" style="font-size: 11px;" class="lock-icon">Logout</a></li>
-								{% else %}
-								<li><a href="/signin">Login</a></li>
-								{% endif %}
-
-							</ul>
-
-							<div class="show"></div>
-
-							<div style="" id="homepage-search-block-inner">
-
-								<h1>IdentiChip</h1>
-
-								<p>Search for Microchip / Tag Numbers worldwide</p>
-
-								<form id="form_search_block" action="/search" method="post" style="margin:0;">
-									<input type="hidden" name="search_token" value="{{session['search_token']}}" />
-									<input  type="text" id="search_box" name="q" value="" class="email" placeholder="Microchip / Tag Number to Search for, eg. (999000000000017)">
-									<button type="submit" id="submit">Search</button>
-								</form>
-
-								<ul class="vertical-menu" style="margin-top: 10px;z-index: 100;">
-									<li><a href="/about">About</a></li>
-									<li><a href="/stats">Statistics</a></li>
-									<li><a href="/providers">Providers</a></li>
-								</ul>
-
-							</div>
-
-						</div>
-
-					</div>
-
-					
-
-				</div>
-
-			</div>
-
-		</div>
-	</div>
+	<p>test</p>
 
 {% endblock %}

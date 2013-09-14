@@ -14,7 +14,6 @@ import uuid
 
 # Custom Apis
 import dal
-import counter
 
 # Setup our Jinja Runner
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader('views'))
@@ -26,16 +25,11 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader('views'))
 class HomepageHandler(webapp2.RequestHandler):
 	def get(self):
 
-		# Get the Session
-		session = dal.return_and_global_session_update(self)
-
 		# Locales
 		locales = {
 			'title': 'Welcome',
 			'description': 'Search Microchips',
 			'user': users.get_current_user(),
-			'homepage': True,
-			'session': session,
 			'is_current_user_admin': users.is_current_user_admin()
 		}
 
