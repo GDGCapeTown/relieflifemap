@@ -2,6 +2,7 @@
 from google.appengine.api import users
 from google.appengine.api.logservice import logservice
 from webapp2_extras import sessions
+from google.appengine.ext import db
 
 # Python Apis
 import webapp2
@@ -27,8 +28,12 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader('views'))
 class ListAPIEventsHandler(webapp2.RequestHandler):
 	def get(self):
 
+		event_objs = []
+
+		user = users.get_current_user()
+
 		# Get the events
-		event_objs = dal.get_events(active=False)
+		event_objs = dal.get_events(active=True)
 
 		output_event = []
 
@@ -37,9 +42,11 @@ class ListAPIEventsHandler(webapp2.RequestHandler):
 			output_event.append( {
 
 				'headline': event_obj.headline,
-				'area_name': event_obj.area_name,
 				'description': event_obj.description,
+				'reach': event_obj.reach,
 				'how_to_help': event_obj.how_to_help,
+				'lat': event_obj.location.lat,
+				'lng': event_obj.location.lon
 
 			} )
 
@@ -141,51 +148,48 @@ class CreateEventsHandler(webapp2.RequestHandler):
 # Acts as the Frontpage when users are not signed in and the dashboard when they are.
 # @author Johann du Toit
 #
-class UpdateEventsHandler(webapp2.RequestHandler):
-	def get(self, event_uid):
-
-		user = users.get_current_user()
-		if not user:
-			self.redirect(users.create_login_url(self.request.uri))
-
-		event_obj = schemas.Event.get_by_id(int(event_uid))
-
-		if event_obj:
-
-			# Locales
-			locales = {
-				'title': 'Welcome',
-				'description': 'Search Microchips',
-				'event': event_obj,
-				'user': users.get_current_user()
-			}
-
-			# Render the template
-			template = jinja_environment.get_template('admin/events/save.html')
-			self.response.out.write(template.render(locales))
-
-		else:
-			self.redirect('/manage')
+class SaveEventsHandler(webapp2.RequestHandler):
 
 	def post(self):
 
 		user = users.get_current_user()
 		if not user:
-			self.redirect(users.create_login_url(self.request.uri))
+			self.response.out.write('not logged in')
 
-		event_obj = schemas.Event.get_by_id(int(event_uid))
+		event_obj = None
 
-		if event_obj:
+		if self.request.POST.get('event_id'):
 
-			# Post Update
-			event_obj.headline = str(self.request.POST.get('headline')).strip()
-			event_obj.area_name = str(self.request.POST.get('area_name')).strip()
-			event_obj.put()
+			event_obj = schemas.Event.get_by_id(int(self.request.POST.get('event_id')))
+
+			if not event_obj:
+
+				# Back to List
+				self.response.out.write('no such obj')
 
 		else:
 
-			# Back to List
-			self.redirect('/manage')
+			event_obj = schemas.Event()
+
+		lats = str(self.request.POST.get('lat')).strip().split(',')
+		lngs = str(self.request.POST.get('lng')).strip().split(',')
+
+		# Post Update
+		event_obj.headline = str(self.request.POST.get('headline')).strip()
+		event_obj.reach = int( str(self.request.POST.get('reach')).strip() )
+		event_obj.description = str(self.request.POST.get('description')).strip()
+		event_obj.how_to_help = str(self.request.POST.get('how_to_help')).strip()
+		event_obj.active = True
+		event_obj.location = db.GeoPt(lat=lats[0],lon=lngs[0])
+		event_obj.put()
+
+		for i in range(0,len(lats)):
+
+			point_obj = schemas.EventPoint()
+			point_obj.location = db.GeoPt(lat=lats[i],lon=lngs[i])
+			point_obj.put()
+
+		self.response.out.write('ok')
 
 
 #

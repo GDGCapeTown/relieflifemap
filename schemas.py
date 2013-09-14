@@ -17,12 +17,13 @@ import logging
 # @author Johann du Toit
 #
 class Event(db.Model):
-	headline = db.StringProperty(required=True)
+	headline = db.StringProperty()
 	area = db.StringProperty()
 	reach = db.IntegerProperty()
 	active = db.BooleanProperty(default=False)
 	description = db.Text()
 	how_to_help = db.Text()
+	location = db.GeoPtProperty()
 	date_of_incident = db.DateTimeProperty()
 	created = db.DateTimeProperty(auto_now_add=True)
 	lastupdated = db.DateTimeProperty(auto_now_add=True)
@@ -33,6 +34,7 @@ class Event(db.Model):
 #
 class EventPoint(db.Model):
 	location = db.GeoPtProperty()
+	event = db.ReferenceProperty(Event)
 	created = db.DateTimeProperty(auto_now_add=True)
 	lastupdated = db.DateTimeProperty(auto_now_add=True)
 
@@ -42,8 +44,8 @@ class EventPoint(db.Model):
 #
 class AllowedUser(db.Model):
 
-	name = db.StringProperty(required=True)
-	email = db.StringProperty(required=True)
+	name = db.StringProperty()
+	email = db.StringProperty()
 
 	created = db.DateTimeProperty(auto_now_add=True)
 	lastupdated = db.DateTimeProperty(auto_now_add=True)

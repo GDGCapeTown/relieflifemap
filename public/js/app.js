@@ -13,6 +13,9 @@
 
 	};
 
+	var changing_center = 1;
+	var changing_lat = null;
+
 	// Shown
 	var event_objs_currently_shown = [];
 
@@ -40,11 +43,11 @@
 			$(event_objs_currently_shown).each(function(){
 				var event_obj = this;
 
-				html = html + '<a href="#" class="event-list-block"> \
+				html = html + '<a data-lng="' + event_obj.lng + '" data-lat="' + event_obj.lat + '" href="#" class="event-list-block"> \
 						<h4>' + event_obj.headline + '</h4> \
 						<span class="reach"> \
 							<img src="/img/reach.png" /> \
-							<h6>4000 people</h6> \
+							<h6>' + event_obj.reach + ' people</h6> \
 						</span> \
 					</a>';
 
@@ -57,6 +60,23 @@
 
 		// Listen for clicks on blocks
 		$(".event-list-block").unbind();
+		$(".event-list-block").on('mouseover', function(){
+
+			changing_center = 0;
+
+			var lat = $(this).attr('data-lat');
+			var lng = $(this).attr('data-lng');
+
+			if(changing_lat != lat) {
+
+				changing_lat = lat;
+				main_map.setCenter(new google.maps.LatLng(lat,lng));
+
+			}
+
+			changing_center = changing_center + 1;
+
+		});
 		$(".event-list-block").on('click', function(){
 
 			handle_extended_view_open('#events-view', function(){});
@@ -209,8 +229,6 @@
 
 								});
 
-								
-
 								$.ajax({
 
 									type: 'post',
@@ -267,25 +285,29 @@
 	**/
 	var handle_center_change_of_map = function() {
 
-		// Get the latlng
-		var latlng = get_center_latlng();
+		if(changing_center > 0) {
 
-		// Setup Loading
-		$(".events-hide").hide();
-		$("#events-loading").show();
+			// Get the latlng
+			var latlng = get_center_latlng();
 
-		// Render !
-		request_queue.push({
+			// Setup Loading
+			$(".events-hide").hide();
+			$("#events-loading").show();
 
-			lat: latlng.lat,
-			lng: latlng.lng,
-			query: ''
+			// Render !
+			request_queue.push({
 
-		}, function(err){
+				lat: latlng.lat,
+				lng: latlng.lng,
+				query: ''
 
-			// Bla !
+			}, function(err){
 
-		});
+				// Bla !
+
+			});
+
+		}
 
 	};
 
