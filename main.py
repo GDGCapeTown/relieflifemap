@@ -20,6 +20,7 @@ import dal
 from handlers.homepage import HomepageHandler
 from handlers.auth import LoginHandler, PostLoginHandler
 from handlers.manage import ListEventsHandler, DeleteEventsHandler, CreateEventsHandler, UpdateEventsHandler
+from handlers.users import ListAllowedUsers
 
 config = {}
 config['webapp2_extras.sessions'] = {
