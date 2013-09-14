@@ -7,6 +7,10 @@
 
 {% block base_content %}
 	
-	<p>test</p>
+    {% if events %}
+    {% else %}
+        No current events found.
+    {% endif %}
+
 
 {% endblock %}
