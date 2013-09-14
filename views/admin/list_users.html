@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block base_content %}
+	
+    {% if users %}
+        {% for user in users %}
+            Name: {{user.name}}
+
+            Email: {{user.email}}
+
+            <a href="/users/delete/{{ user.key().id() }}">Delete</a>
+        {% endfor %}
+    {% else %}
+        No users found.
+    {% endif %}
+    <hr>
+    <form name=users method=post action="/users/create">
+    Name:
+    <input type=text name=name />
+
+    Email:
+    <input type=text name=name />
+
+    <input type=submit value=Add />
+    </form>
+
+{% endblock %}

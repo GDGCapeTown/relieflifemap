@@ -52,6 +52,10 @@ class ListAPIEventsHandler(webapp2.RequestHandler):
 class ListEventsHandler(webapp2.RequestHandler):
 	def get(self):
 
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
+
 		# Get the events
 		event_objs = dal.get_events()
 
@@ -94,6 +98,10 @@ class ViewEventsHandler(webapp2.RequestHandler):
 class CreateEventsHandler(webapp2.RequestHandler):
 	def get(self):
 
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
+
 		# Locales
 		locales = {
 			'title': 'Welcome',
@@ -108,6 +116,10 @@ class CreateEventsHandler(webapp2.RequestHandler):
 		self.response.out.write(template.render(locales))
 
 	def post(self):
+
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
 
 		headline = str(self.request.POST.get('headline')).strip()
 		area_name = str(self.request.POST.get('area_name')).strip()
@@ -132,6 +144,10 @@ class CreateEventsHandler(webapp2.RequestHandler):
 class UpdateEventsHandler(webapp2.RequestHandler):
 	def get(self, event_uid):
 
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
+
 		event_obj = schemas.Event.get_by_id(int(event_uid))
 
 		if event_obj:
@@ -152,6 +168,10 @@ class UpdateEventsHandler(webapp2.RequestHandler):
 			self.redirect('/manage')
 
 	def post(self):
+
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
 
 		event_obj = schemas.Event.get_by_id(int(event_uid))
 
@@ -174,6 +194,10 @@ class UpdateEventsHandler(webapp2.RequestHandler):
 #
 class DeleteEventsHandler(webapp2.RequestHandler):
 	def get(self, event_uid):
+
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
 
 		# Delete the Event
 		event_obj = schemas.Event.get_by_id(int(event_uid))
