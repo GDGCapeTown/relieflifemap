@@ -28,7 +28,7 @@ class Event(db.Model):
 
 	description = db.Text()
 	how_to_help = db.Text()
-	date_of_incident = db.BooleanProperty()
+	date_of_incident = db.DateTimeProperty()
 	created = db.DateTimeProperty(auto_now_add=True)
 	lastupdated = db.DateTimeProperty(auto_now_add=True)
 
