@@ -21,9 +21,9 @@ class Event(db.Model):
 	area = db.IntegerProperty()
 	area_name = db.StringProperty(required=True)
 
-	min_reach = db.NumberProperty()
-	max_reach = db.NumberProperty()
-	location = ndb.GeoPtProperty(required=True)
+	min_reach = db.IntegerProperty()
+	max_reach = db.IntegerProperty()
+	location = db.GeoPtProperty(required=True)
 
 	description = db.Text()
 	how_to_help = db.Text()
