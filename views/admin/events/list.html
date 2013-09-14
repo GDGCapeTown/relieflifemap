@@ -1,0 +1,28 @@
+{% extends "../base.html" %}
+
+{% block scripts %}
+
+
+{% endblock %}
+
+{% block base_content %}
+
+    {% if events %}
+            <table>
+                <tr><th>Headline</th><th>Date</th></tr>
+                {% for event in events %}
+                    <tr>
+                        <td>
+                            event.headline
+                        </td>
+                        <td>
+                            event.date_of_incident
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+    {% else %}
+        No current events
+    {% endif %}
+
+{% endblock %}
