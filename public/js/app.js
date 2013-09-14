@@ -1,5 +1,18 @@
 (function(){
 
+	// Options
+	var mapOptions = {
+
+		center: new google.maps.LatLng(-34.397, 150.644),
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		maxZoom: 8,
+		minZoom: 8,
+		zoomControl: false,
+		disableDefaultUI: true
+
+	};
+
 	// Shown
 	var event_objs_currently_shown = [];
 
@@ -142,8 +155,107 @@
 
 		$("#btn_select_create_event_points").click(function(){
 
-			$("#map-info-block").hide();
-			$(".overlay").hide();
+			$(".mapping-canvas, #map-info-block, .overlay").hide();
+			$("#select-point-map-canvas").show();
+
+			if(!select_map) {
+
+				// select-point-map-canvas
+				select_map = new google.maps.Map(document.getElementById('select-point-map-canvas'), mapOptions);
+
+				var drawingManager = new google.maps.drawing.DrawingManager({
+				
+					drawingMode: google.maps.drawing.OverlayType.POLYGON,
+					drawingControl: true,
+					drawingControlOptions: {
+					position: google.maps.ControlPosition.TOP_CENTER,
+					drawingModes: [
+					google.maps.drawing.OverlayType.MARKER,
+					google.maps.drawing.OverlayType.CIRCLE,
+					google.maps.drawing.OverlayType.POLYGON,
+					google.maps.drawing.OverlayType.POLYLINE,
+					google.maps.drawing.OverlayType.RECTANGLE
+					]
+					},
+
+				});
+				drawingManager.setMap(select_map);
+
+				google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+
+					// Listen for poly
+					if (event.type == google.maps.drawing.OverlayType.POLYGON) {
+
+						var headline = $("#txt_create_headline").val();
+						var reach = $("#txt_create_reach").val();
+						var date = $("#txt_create_date").val();
+						var description = $("#txt_create_desc").val();
+						var howtohelp_txt = $("#txt_create_howtohelp").val();
+
+						var path_obj = event.overlay.getPaths().getArray();
+						if(path_obj) {
+
+							var paths = path_obj[0];
+							if(paths) {
+
+								paths = paths.getArray();
+								var lats = [];
+								var lngs = [];
+
+								paths.forEach(function(path_obj){
+
+									lats.push(path_obj.pb);
+									lngs.push(path_obj.qb);
+
+								});
+
+								
+
+								$.ajax({
+
+									type: 'post',
+									url: '/events/save',
+									data: {
+
+										headline: headline,
+										lat: lats.join(','),
+										lng: lngs.join(','),
+										reach: reach,
+										date: date,
+										description: description,
+										howtohelp: howtohelp_txt
+
+									},
+									'success': function() {
+
+										// Done !
+										header_hide();
+										$(".mapping-canvas").hide();
+										$("#map-canvas,#map-info-block,.overlay").show();
+
+										handle_extended_view_close('#events-listing', function(){
+
+											// Update list
+											handle_center_change_of_map();
+
+										});
+
+									},
+									'error': function(){}
+
+
+								});
+
+							}
+
+						}
+
+					}
+
+				});
+
+			}
+
 			header_show('#header-select-region');
 
 		});
@@ -183,47 +295,11 @@
 	var initialize = function() {
 
 		// Options
-		var mapOptions = {
-
-			center: new google.maps.LatLng(-34.397, 150.644),
-			zoom: 8,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			maxZoom: 8,
-			minZoom: 8,
-			zoomControl: false,
-			disableDefaultUI: true
-
-		};
+		
 		main_map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
 		// Listen for the center change !
 		google.maps.event.addListener(main_map, 'center_changed', handle_center_change_of_map);
-
-		// select-point-map-canvas
-		select_map = new google.maps.Map(document.getElementById('select-point-map-canvas'), mapOptions);
-
-		var drawingManager = new google.maps.drawing.DrawingManager({
-		drawingMode: google.maps.drawing.OverlayType.MARKER,
-		drawingControl: true,
-		drawingControlOptions: {
-		position: google.maps.ControlPosition.TOP_CENTER,
-		drawingModes: [
-		google.maps.drawing.OverlayType.POLYGON
-		]
-		},
-		markerOptions: {
-		icon: 'images/beachflag.png'
-		},
-		circleOptions: {
-		fillColor: '#ffff00',
-		fillOpacity: 1,
-		strokeWeight: 5,
-		clickable: false,
-		editable: true,
-		zIndex: 1
-		}
-		});
-		drawingManager.setMap(select_map);
 
 		// Setup center
 		handle_center_change_of_map();
