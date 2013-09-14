@@ -7,45 +7,112 @@
 
 {% block base_content %}
 
-    <form name=event method=post action="{% if event.id %}/events/update{% else %}/events/create{% endif %}">
-        Headline:
-        <input type=text name=headline {% if event %} value={{event.headline}} {% endif %} />
+     <div class="container">
 
-        Radius area of impact:
-        <input type=text name=area {% if event %} value={{event.area}} {% endif %} />
+        <div class="row">
 
-        Area name:
-        <input type=text name=area {% if event %} value={{event.area_name}} {% endif %} />
+            <div class="col-md-8 col-md-offset-2">
 
-        Severity:
-        <select name=severity>
-            <option value=1 {% if event %} {% if event.severity == 1 %}selected=selected{% endif %}{% endif %}>1</option>
-            <option value=2 {% if event %} {% if event.severity == 2 %}selected=selected{% endif %}{% endif %}>2</option>
-            <option value=3 {% if event %} {% if event.severity == 3 %}selected=selected{% endif %}{% endif %}>3</option>
-            <option value=4 {% if event %} {% if event.severity == 4 %}selected=selected{% endif %}{% endif %}>4</option>
-            <option value=5 {% if event %} {% if event.severity == 5 %}selected=selected{% endif %}{% endif %}>5</option>
-        </select>
+                 <a style="float:right;margin-top: 25px;" href="/manage" class="btn btn-danger">Back to Events</a>
 
-        <input type="checkbox" name=active> 
-        This event is active
+                <h1>{% if event.id %}Update{% else %}Create{% endif %} Event</h1>
+    
+                <br />
 
-        Date of incident:
-        <input type=text name=dateofincident />
+                <form name=event method=post action="{% if event.id %}/events/update{% else %}/events/create{% endif %}">
 
-        Latitude:
-        <input type=text name=lat />
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">Headline</label>
+                        <div class="controls">
+                        <input type=text name=headline {% if event %} value={{event.headline}} {% endif %} />
+                        </div>
+                    </div>
 
-        Longitude:
-        <input type=text name=lon />
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">Radius area of impact</label>
+                        <div class="controls">
+                         <input type=text name=area {% if event %} value={{event.area}} {% endif %} />
+                        </div>
+                    </div>
 
-        Description:
-        <input type=textarea name=description />
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">Area name</label>
+                        <div class="controls">
+                        <input type=text name=area {% if event %} value={{event.area_name}} {% endif %} />
+                        </div>
+                    </div>
 
-        Items of help needed:
-        <input type=textarea name=description />
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">Severity</label>
+                        <div class="controls">
+                        <select name=severity>
+                        <option value=1 {% if event %} {% if event.severity == 1 %}selected=selected{% endif %}{% endif %}>1</option>
+                        <option value=2 {% if event %} {% if event.severity == 2 %}selected=selected{% endif %}{% endif %}>2</option>
+                        <option value=3 {% if event %} {% if event.severity == 3 %}selected=selected{% endif %}{% endif %}>3</option>
+                        <option value=4 {% if event %} {% if event.severity == 4 %}selected=selected{% endif %}{% endif %}>4</option>
+                        <option value=5 {% if event %} {% if event.severity == 5 %}selected=selected{% endif %}{% endif %}>5</option>
+                        </select>
+                        </div>
+                    </div>
 
-        <input type="submit" value="Create" />
+                     <div class="control-group">
+                        <label class="control-label" for="inputEmail">Enabled</label>
+                        <div class="controls">
+                        <input type="checkbox" name=active> 
+                        </div>
+                    </div>
 
-    </form>
+                     <div class="control-group">
+                        <label class="control-label" for="inputEmail">Date of incident</label>
+                        <div class="controls">
+                        <input type=text name=dateofincident />
+                        </div>
+                    </div>
+
+                     <div class="control-group">
+                        <label class="control-label" for="inputEmail">Latitude</label>
+                        <div class="controls">
+                       <input type=text name=lat />
+                        </div>
+                    </div>
+
+                     <div class="control-group">
+                        <label class="control-label" for="inputEmail">Longitude</label>
+                        <div class="controls">
+                       <input type=text name=lng />
+                        </div>
+                    </div>
+
+                     <div class="control-group">
+                        <label class="control-label" for="inputEmail">Description</label>
+                        <div class="controls">
+                        <textarea name="description" style="width: 500px;height:350px;"></textarea>
+                        </div>
+                    </div>
+
+                     <div class="control-group">
+                        <label class="control-label" for="inputEmail">How to Help</label>
+                        <div class="controls">
+                        <textarea name="description" style="width: 500px;height:350px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">&nbsp;</label>
+                        <div class="controls">
+
+                            <button class="btn btn-primary">Save</button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
 
 {% endblock %}

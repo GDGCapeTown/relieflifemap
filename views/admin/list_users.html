@@ -4,27 +4,62 @@
 {% endblock %}
 
 {% block base_content %}
-	
-    {% if users %}
-        {% for user in users %}
-            Name: {{user.name}}
 
-            Email: {{user.email}}
+    <div class="container">
 
-            <a href="/users/delete/{{ user.key().id() }}">Delete</a>
-        {% endfor %}
-    {% else %}
-        No users found.
-    {% endif %}
-    <hr>
-    <form name=users method=post action="/users/create">
-    Name:
-    <input type=text name=name />
+        <div class="row">
 
-    Email:
-    <input type=text name=name />
+            <div class="col-md-8 col-md-offset-2">
 
-    <input type=submit value=Add />
-    </form>
+                 <a style="float:right;margin-top: 25px;" href="/manage" class="btn btn-primary">Manage Events</a>
+
+                <h1>Manage Users</h1>
+    
+                <br />
+               
+                {% if users %}
+                    <table class="table">
+                        <tr><td>Name</td><td>E-Mail</td><td>&nbsp;</td></tr>
+                    {% for user in users %}
+                        <tr>
+                            <td>
+                                {{user.name}}
+                            </td>
+                            <td>
+                                {{user.email}}
+                            </td>
+                            <td style="width:140px;">
+                                
+                                <a class="btn btn-primary" href="/users/edit/{{ user.key().id() }}">Edit</a>
+                                <a class="btn btn-danger" href="/users/delete/{{ user.key().id() }}">Delete</a>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                {% else %}
+                    No users found
+                {% endif %}
+
+                <hr />
+
+                <form class="form-inline" method="post" action="/users/create">
+
+                    <label>Name:</label>
+                    <input type="text" class="input-medium" name="name" />
+
+                    <label>Email:</label>
+                    <input type="text" class="input-medium" name="email" />
+
+                    <button class="btn btn-primary">Add</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+   
 
 {% endblock %}

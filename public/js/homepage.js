@@ -51,7 +51,7 @@ var load_events_from_map = function() {
 							<h4>' + event_obj.headline + '</h4> \
 							<span class="reach"> \
 								<img src="/img/reach.png" /> \
-								<h6>' + event_obj.reach + ' people</h6> \
+								<h6>4000 people</h6> \
 							</span> \
 						</a>';
 
@@ -62,6 +62,33 @@ var load_events_from_map = function() {
 
 			} else $("#events-none").show();	
 
+			// Listen for clicks on blocks
+			$(".event-list-block").unbind();
+			$(".event-list-block").on('click', function(){
+
+				$(".overlay").show();
+				$( ".overlay" ).animate({
+
+					opacity: 0.75
+				
+				}, 50, function() {
+				
+					$( "#map-info-block" ).animate({
+
+						width: "92%"
+
+					}, 1000, function() {
+					
+						// Done !
+						$(".events-hide").hide();
+						$("#events-view").fadeIn();
+
+					});
+
+				});
+
+			});
+
 		}
 
 	});
@@ -70,29 +97,7 @@ var load_events_from_map = function() {
 
 $(document).ready(function(){
 
-	// Listen for clicks on blocks
-	$(".event-list-block").on('click', function(){
-
-		$(".overlay").show();
-		$( ".overlay" ).animate({
-
-			opacity: 0.75
-		
-		}, 50, function() {
-		
-			$( "#map-info-block" ).animate({
-
-				width: "92%"
-
-			}, 1000, function() {
-			
-				// Done !
-
-			});
-
-		});
-
-	});
+	
 
 });
 
