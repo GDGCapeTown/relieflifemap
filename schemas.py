@@ -22,7 +22,7 @@ class Event(db.Model):
 	area_name = db.StringProperty(required=True)
 
 	severity = db.IntegerProperty()
-	location = db.GeoPtProperty(required=True)
+	location = db.GeoPtProperty()
 
 	active = db.BooleanProperty(default=False)
 

@@ -27,7 +27,7 @@ class ListEventsHandler(webapp2.RequestHandler):
 	def get(self):
 
 		# Get the events
-		event_objs = [] # dal.get_events()
+		event_objs = dal.get_events()
 
 		# Locales
 		locales = {
@@ -63,28 +63,61 @@ class CreateEventsHandler(webapp2.RequestHandler):
 		template = jinja_environment.get_template('admin/events/save.html')
 		self.response.out.write(template.render(locales))
 
+	def post(self):
+
+		event_obj = schemas.Event(
+
+				headline="test #1",
+				area_name="test 2",
+				location=None
+
+			)
+
+		event_obj.put()
+
+		self.redirect('/manage')
+
 
 #
 # Acts as the Frontpage when users are not signed in and the dashboard when they are.
 # @author Johann du Toit
 #
 class UpdateEventsHandler(webapp2.RequestHandler):
-	def get(self):
+	def get(self, event_uid):
 
-		# Get the events
-		event_objs = [] # dal.get_events()
+		event_obj = schemas.Event.get_by_id(int(event_uid))
 
-		# Locales
-		locales = {
-			'title': 'Welcome',
-			'description': 'Search Microchips',
-			'event_objs': event_objs,
-			'user': users.get_current_user()
-		}
+		if event_obj:
 
-		# Render the template
-		template = jinja_environment.get_template('admin/events/save.html')
-		self.response.out.write(template.render(locales))
+			# Locales
+			locales = {
+				'title': 'Welcome',
+				'description': 'Search Microchips',
+				'event': event_obj,
+				'user': users.get_current_user()
+			}
+
+			# Render the template
+			template = jinja_environment.get_template('admin/events/save.html')
+			self.response.out.write(template.render(locales))
+
+		else:
+			self.redirect('/manage')
+
+	def post(self):
+
+		event_obj = schemas.Event.get_by_id(int(event_uid))
+
+		if event_obj:
+
+			# Post Update
+			event_obj.headline = "Test #1"
+			event_obj.put()
+
+		else:
+
+			# Back to List
+			self.redirect('/manage')
 
 
 #

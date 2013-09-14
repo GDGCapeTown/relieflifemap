@@ -7,7 +7,7 @@
 
 {% block base_content %}
 
-    <form name=event method=post action="{% if event.id %}{{ '/events/update' }}{% else %} '/events/create'  {% endif %}">
+    <form name=event method=post action="{% if event.id %}/events/update{% else %}/events/create{% endif %}">
         Headline:
         <input type=text id=headline {% if event %} value={{event.headline}} {% endif %} />
 
@@ -43,6 +43,8 @@
 
         Items of help needed:
         <input type=textarea id=description />
+
+        <input type="submit" value="Create" />
 
     </form>
 

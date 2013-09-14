@@ -5,16 +5,22 @@
 
 {% block base_content %}
 	
-    {% if events %}
+    {% if event_objs %}
         <table>
-            <tr><td>Headline</td><td>Date of event</td></tr>
-        {% for event in events %}
+            <tr><td>Headline</td><td>Date of event</td><td>&nbsp;</td></tr>
+        {% for event in event_objs %}
             <tr>
                 <td>
                     {{event.headline}}
                 </td>
                 <td>
                     {{event.date_of_incident}}
+                </td>
+                <td>
+                    
+                    <a href="/events/edit/{{ event.key().id() }}">Edit</a>
+                    <a href="/events/delete/{{ event.key().id() }}">Delete</a>
+
                 </td>
             </tr>
         {% endfor %}
