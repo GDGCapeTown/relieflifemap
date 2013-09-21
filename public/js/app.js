@@ -232,6 +232,40 @@
 
 		});
 
+        $("#btn_select_create_user").click(function(){
+                                var username = $("#txt_create_user").val();
+                                var email = $("#txt_create_useremail").val();
+
+                                $.ajax({
+
+                                    type: 'post',
+                                    url: '/users/create',
+                                    data: {
+                                        name: username,
+                                        email: email,
+                                    },
+                                    'success': function() {
+
+                                        // Done !
+                                        header_hide();
+                                        $(".mapping-canvas").hide();
+                                        $("#map-canvas,#map-info-block,.overlay").show();
+
+                                        handle_extended_view_close('#events-listing', function(){
+
+                                            // Update list
+                                            handle_center_change_of_map();
+
+                                        });
+
+                                    },
+                                    'error': function(){}
+
+
+                                });
+
+        });
+
 		$("#btn_select_create_event_points").click(function(){
 
 			$(".mapping-canvas, #map-info-block, .overlay").hide();
