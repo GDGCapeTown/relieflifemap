@@ -19,6 +19,7 @@ import logging
 class Event(db.Model):
 	headline = db.StringProperty()
 	points = db.StringProperty()
+	category = db.StringProperty()
 	area = db.StringProperty()
 	reach = db.IntegerProperty()
 	active = db.BooleanProperty(default=False)

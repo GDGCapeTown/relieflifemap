@@ -17,6 +17,7 @@
 	var changing_lat = null;
 	var created_points = [];
 	var events_marked = {};
+	var viewable_event_obj = null;
 
 	// Shown
 	var event_objs_currently_shown = [];
@@ -37,6 +38,13 @@
 	request_queue.drain = function() {
 
 		$(".events-hide").hide();
+
+		_.each(_.keys(events_marked), function(marked_event_id){
+
+			var marked_event_obj = events_marked[marked_event_id];
+			marked_event_obj.setMap(null);
+
+		});
 
 		if(event_objs_currently_shown && event_objs_currently_shown.length > 0) {
 
@@ -60,15 +68,39 @@
 					points.push(new google.maps.LatLng(parts[0], parts[1]))
 				}
 
+				var watermark = '#FF0000';
+
+				if(event_obj.category == 'fire') {
+
+					watermark = '#FF0000';
+
+				} else if(event_obj.category == 'flood') {
+
+					watermark = '#3878c7';
+
+				} else if(event_obj.category == 'civil') {
+
+					watermark = '#eec956';
+
+				} 
+
 				// Render the view
-				handle_render_mark(event_obj.id, points, '#FF0000', '#FF0000');
+				handle_render_mark(event_obj.id, points, watermark, watermark);
 
 			});
 
 			$("#events-listing").html(html);
 			$("#events-listing").show();
 
-		} else $("#events-none").show();	
+		} else {
+
+			$(".events-hide").hide();
+			$("#events-none").show();	
+
+			$("#events-listing").html('');
+			$("#events-listing").hide();
+
+		}
 
 		// Listen for clicks on blocks
 		$(".event-list-block").unbind();
@@ -91,7 +123,19 @@
 		});
 		$(".event-list-block").on('click', function(){
 
-			handle_extended_view_open('#events-view', function(){});
+			var event_id = $(this).attr('data-id');
+
+			var event_obj = _.find(event_objs_currently_shown, function(a) { return '' + a.id == '' + event_id; });
+
+			if(event_obj) {
+
+				handle_extended_view_open('#events-view', function(){
+
+					view_event_open(event_obj);
+
+				});
+
+			}
 
 		});
 
@@ -108,6 +152,41 @@
 
 		$(".overhead-header").hide();
 		if(block) $(block).slideDown();
+
+	};
+
+	/**
+	* The view object was opened !
+	**/
+	var view_event_open = function(view_obj) {
+
+		$("#block_event_edit").show();
+
+		$("#btn_disable_event").unbind();
+		$("#btn_disable_event").click(function(){
+
+
+			if(confirm("Really Disable ?")) {
+
+				$.ajax({
+
+					method: 'get',
+					type: 'get',
+					url: '/events/disable/' + view_obj.id,
+					uri: '/events/disable/' + view_obj.id,
+					success:function (){
+
+						handle_center_change_of_map();
+						handle_extended_view_close('#events-listing', function(){});
+            			
+
+					}
+
+				});
+
+			}
+
+		});
 
 	};
 
@@ -187,6 +266,8 @@
 	**/
 	var handle_binding_setup = function() {
 
+		
+
 		// Setup our button to create
 		$(".btn_center_map").click(function(){
 
@@ -213,6 +294,8 @@
 
 			handle_extended_view_close('#events-listing', function(){});
             request_queue.drain();
+
+            $("#block_event_edit").hide();
 
 		});
 
@@ -343,6 +426,7 @@
 										lat: lats.join(','),
 										lng: lngs.join(','),
 										reach: reach,
+										category: $("#select_event_type").val(),
 										date: date,
 										description: description,
 										howtohelp: howtohelp_txt
@@ -438,6 +522,9 @@
 
 		center_to_current_location();
 
+		// Hide admin stuff
+		$(".admin-event-actions").hide();
+
 		// Setup bindings
 		handle_binding_setup();
 
@@ -531,7 +618,7 @@
 				strokeOpacity: 0.8,
 				strokeWeight: 2,
 				fillColor: fill_color,
-				fillOpacity: 0.35
+				fillOpacity: 0.50
 
 			});
 			new_plot.setMap(main_map);
@@ -565,20 +652,18 @@
 		     	$('.event-list-block[data-id="' + event_id + '"]').click();
 		    });
 
-		}
+		} else events_marked[event_id].setMap(main_map);
 
 	};
 
 	var handle_render_markers = function() {
 
-		/* handle_render_mark(5785905063264256, [
+		_.each(event_objs_currently_shown, function(event_obj){
 
-			new google.maps.LatLng(-33.904616, 18.416605),
-			new google.maps.LatLng(-33.987210, 18.338585),
-			new google.maps.LatLng(-34.112373, 18.829536),
-			new google.maps.LatLng(-33.874976, 18.733063)
+			var marked_event_obj = events_marked[event_obj.id];
+			if(marked_event_obj) marked_event_obj.setMap(main_map);
 
-		], '#FF0000', '#FF0000'); */
+		});
 
 	};
 

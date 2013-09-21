@@ -43,7 +43,7 @@ class ListAPIEventsHandler(webapp2.RequestHandler):
 		index = search.Index(name="event_points")
 		query_string = "distance(point, geopoint(" + lat + ", " + lng + ")) < 10000" 
 		try:
-			results = index.search(query_string) 
+			results = index.search('') 
 
 			# Iterate over the documents in the results
 			for scored_document in results:
@@ -55,12 +55,13 @@ class ListAPIEventsHandler(webapp2.RequestHandler):
 					already_in.append(id_val)
 					event_obj = schemas.Event.get_by_id(  long(str(id_val)) )
 
-					if event_obj != None:
+					if event_obj != None and event_obj.active == True:
 
 						output_event.append( {
 
 							'id': event_obj.key().id(),
 							'headline': event_obj.headline,
+							'category': event_obj.category,
 							'description': event_obj.description,
 							'reach': event_obj.reach,
 							'how_to_help': event_obj.how_to_help,
@@ -215,6 +216,7 @@ class SaveEventsHandler(webapp2.RequestHandler):
 		event_obj.reach = int( str(self.request.POST.get('reach')).strip() )
 		event_obj.description = str(self.request.POST.get('description')).strip()
 		event_obj.how_to_help = str(self.request.POST.get('how_to_help')).strip()
+		event_obj.category = str(self.request.POST.get('category')).strip()
 		event_obj.active = True
 		event_obj.points = '' + '@'.join(point_objs)
 		event_obj.location = db.GeoPt(lat=float(lats[0]),lon=float(lngs[0]))
@@ -247,6 +249,24 @@ class SaveEventsHandler(webapp2.RequestHandler):
 		# Dummy OK just so we send something back !
 		self.response.out.write('ok')
 
+
+#
+# Acts as the Frontpage when users are not signed in and the dashboard when they are.
+# @author Johann du Toit
+#
+class DisableEventsHandler(webapp2.RequestHandler):
+	def get(self, event_uid):
+
+		user = users.get_current_user()
+		if not user:
+			self.redirect(users.create_login_url(self.request.uri))
+
+		# Delete the Event
+		event_obj = schemas.Event.get_by_id(int(event_uid))
+		event_obj.active = False
+		event_obj.put()
+
+		self.response.out.write('ok')
 
 #
 # Acts as the Frontpage when users are not signed in and the dashboard when they are.
