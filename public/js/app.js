@@ -200,7 +200,8 @@
 
 		$(".btn_extended_close").click(function(){
 
-			handle_extended_view_close('#events-listing');
+			handle_extended_view_close('#events-listing', function(){});
+            request_queue.drain();
 
 		});
 
@@ -423,8 +424,8 @@
 			}, 500, function() {
 			
 				// Done !
-				$(".users-hide").hide();
-				$(".events-hide").hide();
+				$("#manage_users").hide();
+				$("#events-create").hide();
 				$(block_str).fadeIn();
 
 				// Callback
