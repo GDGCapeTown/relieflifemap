@@ -27,11 +27,15 @@ class HomepageHandler(webapp2.RequestHandler):
 
 		user_obj = users.get_current_user()
 
+		if user_obj:
+			app_users = dal.get_allowed_users()
+
 		# Locales
 		locales = {
 			'title': '',
 			'description': '',
-			'user': user_obj
+			'user': user_obj,
+			'app_users': app_users
 		}
 
 		# Render the template

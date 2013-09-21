@@ -98,7 +98,7 @@
 
 								<div class="clearfix"></div>
 
-								<a href="javascript:void(0);" id="btn_select_create_event_points" class="btn btn-primary btn-large">Next up select your points</a>
+								<a href="javascript:void(0);" id="btn_select_create_event_points" class="btn btn-small ">Next up select your points</a>
 
 							</div>
 
@@ -113,6 +113,21 @@
 					<div style="margin: 15px;">
 
 						<h1 style="">Manage Users</h1>
+							<div style="float:left;width: 50%;margin:0;padding:0;">
+                            	{% if app_users %}
+										<table style="">
+                                	{% for appuser in app_users %}
+										<tr>
+										<td style="padding:5px;">{{appuser.name}}</td>
+										<td style="padding:5px;">{{appuser.email}}</td>
+										<td style="padding:5px;"><a href="javascript:void(0);" data-user-id="{{appuser.key().id()}}" id="delete-user" class="btn btn-primary btn-large">Delete</a></td>
+										</tr>
+                                	{% endfor %}
+										</table>
+                            	{% else %}
+                                	No users at this time
+                            	{% endif %}
+							</div>
 
 							<div style="float:left;width: 50%;margin:0;padding:0;">
 

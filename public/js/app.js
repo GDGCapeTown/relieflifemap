@@ -174,6 +174,25 @@
 	/**
 	* Setup the UI bindings
 	**/
+		$("#delete-user").click(function(){
+								var id = $(this).attr('data-user-id');
+
+                                $.ajax({
+
+                                    type: 'get',
+                                    url: '/users/delete/' + id,
+                                    data: {
+                                    },
+                                    'success': function() {
+
+                                        // Done !
+                                    },
+                                    'error': function(){}
+
+
+                                });
+		});
+
 	var handle_binding_setup = function() {
 
 		// Setup our button to create
