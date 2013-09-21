@@ -16,6 +16,7 @@
 	var changing_center = 1;
 	var changing_lat = null;
 	var created_points = [];
+	var events_marked = {};
 
 	// Shown
 	var event_objs_currently_shown = [];
@@ -51,6 +52,16 @@
 							<h6>' + event_obj.reach + ' people</h6> \
 						</span> \
 					</a>';
+
+				var points = [];
+
+				for(var point in event_obj.points) {
+					var parts = event_obj.points[point].split(',');
+					points.push(new google.maps.LatLng(parts[0], parts[1]))
+				}
+
+				// Render the view
+				handle_render_mark(event_obj.id, points, '#FF0000', '#FF0000');
 
 			});
 
@@ -117,8 +128,8 @@
 		var center_block = main_map.getCenter();
 		return {
 
-			lat: center_block.pb,
-			lng: center_block.qb
+			lat: center_block.lat(),
+			lng: center_block.lng()
 
 		};
 
@@ -270,8 +281,8 @@
 
 								paths.forEach(function(path_obj){
 
-									lats.push(path_obj.pb);
-									lngs.push(path_obj.qb);
+									lats.push(path_obj.lat());
+									lngs.push(path_obj.lng());
 
 								});
 
@@ -457,47 +468,69 @@
 
 	};
 
-	var handle_render_mark = function(event_id, points) {
+	/**
+	* Renders a mark on the page
+	**/
+	var handle_render_mark = function(event_id, points, border_color, fill_color) {
 
-		var stuffToPlot = [
-		new google.maps.LatLng(-33.904616, 18.416605),
-		new google.maps.LatLng(-33.987210, 18.338585),
-		new google.maps.LatLng(-34.112373, 18.829536),
-		new google.maps.LatLng(-33.874976, 18.733063)
-		];
-		
-		var new_plot = new google.maps.Polygon({
-		paths: stuffToPlot,
-		strokeColor: '#FF0000',
-		strokeOpacity: 0.8,
-		strokeWeight: 2,
-		fillColor: '#FF0000',
-		fillOpacity: 0.35
-		});
-		new_plot.setMap(main_map);
+		if(!events_marked[event_id]) {
 
-		google.maps.event.addListener(new_plot, 'mouseout', function(event) {
+			// Create a new polygon
+			var new_plot = new google.maps.Polygon({
 
-			$('.event-list-block').removeClass('active');
+				paths: points,
+				strokeColor: border_color,
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: fill_color,
+				fillOpacity: 0.35
 
-	    });
+			});
+			new_plot.setMap(main_map);
 
-		google.maps.event.addListener(new_plot, 'mousemove', function(event) {
+			// Set the polygon
+			events_marked[event_id] = new_plot;
 
-			$('.event-list-block').removeClass('active');
-			$('.event-list-block[data-id="' + event_id + '"]').addClass('active');
+			/**
+			* Set outbound hover
+			**/ 
+			google.maps.event.addListener(new_plot, 'mouseout', function(event) {
 
-	    });
+				$('.event-list-block').removeClass('active');
 
-		google.maps.event.addListener(new_plot, 'click', function(event) {
-	     	$('.event-list-block[data-id="' + event_id + '"]').click();
-	    });
+		    });
+
+			/**
+			*
+			**/
+			google.maps.event.addListener(new_plot, 'mousemove', function(event) {
+
+				$('.event-list-block').removeClass('active');
+				$('.event-list-block[data-id="' + event_id + '"]').addClass('active');
+
+		    });
+
+			/**
+			* Handles when the user click on a polygon
+			**/
+			google.maps.event.addListener(new_plot, 'click', function(event) {
+		     	$('.event-list-block[data-id="' + event_id + '"]').click();
+		    });
+
+		}
 
 	};
 
 	var handle_render_markers = function() {
 
-		handle_render_mark(5785905063264256, []);
+		/* handle_render_mark(5785905063264256, [
+
+			new google.maps.LatLng(-33.904616, 18.416605),
+			new google.maps.LatLng(-33.987210, 18.338585),
+			new google.maps.LatLng(-34.112373, 18.829536),
+			new google.maps.LatLng(-33.874976, 18.733063)
+
+		], '#FF0000', '#FF0000'); */
 
 	};
 

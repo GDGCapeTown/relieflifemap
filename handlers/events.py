@@ -3,6 +3,9 @@ from google.appengine.api import users
 from google.appengine.api.logservice import logservice
 from webapp2_extras import sessions
 from google.appengine.ext import db
+from google.appengine.api import search
+from decimal import Decimal
+import math
 
 # Python Apis
 import webapp2
@@ -30,26 +33,46 @@ class ListAPIEventsHandler(webapp2.RequestHandler):
 
 		event_objs = []
 
+		lat = self.request.get('lat')
+		lng = self.request.get('lng')
+
 		user = users.get_current_user()
-
-		# Get the events
-		event_objs = dal.get_events(active=True)
-
 		output_event = []
+		already_in = []
 
-		for event_obj in event_objs:
+		index = search.Index(name="event_points")
+		query_string = "distance(point, geopoint(" + lat + ", " + lng + ")) > 10000" 
+		try:
+			results = index.search('') 
 
-			output_event.append( {
+			# Iterate over the documents in the results
+			for scored_document in results:
 
-				'id': event_obj.key().id(),
-				'headline': event_obj.headline,
-				'description': event_obj.description,
-				'reach': event_obj.reach,
-				'how_to_help': event_obj.how_to_help,
-				'lat': event_obj.location.lat,
-				'lng': event_obj.location.lon
+				id_val = scored_document['event'][0].value
 
-			} )
+				if id_val not in already_in:
+
+					already_in.append(id_val)
+					event_obj = schemas.Event.get_by_id(  long(str(id_val)) )
+
+					if event_obj != None:
+
+						output_event.append( {
+
+							'id': event_obj.key().id(),
+							'headline': event_obj.headline,
+							'description': event_obj.description,
+							'reach': event_obj.reach,
+							'how_to_help': event_obj.how_to_help,
+							'lat': event_obj.location.lat,
+							'lng': event_obj.location.lon,
+							'points': event_obj.points.split('@')
+
+						} )
+
+		except search.Error:
+			print logging.exception('search failed')
+			
 
 		self.response.out.write(json.dumps(output_event))
 
@@ -158,22 +181,34 @@ class SaveEventsHandler(webapp2.RequestHandler):
 			self.response.out.write('not logged in')
 
 		event_obj = None
+		index = search.Index(name="event_points")
 
 		if self.request.POST.get('event_id'):
 
-			event_obj = schemas.Event.get_by_id(int(self.request.POST.get('event_id')))
+			event_obj = schemas.Event.get_by_id(long(self.request.POST.get('event_id')))
 
 			if not event_obj:
 
 				# Back to List
 				self.response.out.write('no such obj')
+				return
+
+			else:
+
+				# Delete all past index
+				pass
 
 		else:
 
+			# New Event
 			event_obj = schemas.Event()
 
 		lats = str(self.request.POST.get('lat')).strip().split(',')
 		lngs = str(self.request.POST.get('lng')).strip().split(',')
+
+		point_objs = []
+		for i in range(0,len(lats)):
+			point_objs.append(str(lats[i]) + "," + str(lngs[i]))
 
 		# Post Update
 		event_obj.headline = str(self.request.POST.get('headline')).strip()
@@ -181,15 +216,35 @@ class SaveEventsHandler(webapp2.RequestHandler):
 		event_obj.description = str(self.request.POST.get('description')).strip()
 		event_obj.how_to_help = str(self.request.POST.get('how_to_help')).strip()
 		event_obj.active = True
-		event_obj.location = db.GeoPt(lat=lats[0],lon=lngs[0])
+		event_obj.points = '' + '@'.join(point_objs)
+		event_obj.location = db.GeoPt(lat=float(lats[0]),lon=float(lngs[0]))
 		event_obj.put()
+
+		indexes_to_save = []
 
 		for i in range(0,len(lats)):
 
-			point_obj = schemas.EventPoint()
-			point_obj.location = db.GeoPt(lat=lats[i],lon=lngs[i])
-			point_obj.put()
+			plat = lats[i]
+			plng = lngs[i]
 
+			event_index_obj = search.Document(
+
+				fields=[
+
+					search.TextField(name='event', value=str(event_obj.key().id())),
+					search.GeoField(name='point', value=search.GeoPoint( float( plat ) , float(plng)  ))
+				
+				]
+			)
+
+			# ADd to batch that we will add
+			index.put(event_index_obj)
+			# indexes_to_save.append(event_index_obj)
+		
+		# Now we batch save all our indexes
+		# index.put(indexes_to_save)
+
+		# Dummy OK just so we send something back !
 		self.response.out.write('ok')
 
 
