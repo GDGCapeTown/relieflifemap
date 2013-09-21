@@ -219,6 +219,18 @@
 
 		});
 
+		// Setup our button to create
+		$("#btn_manage_users").click(function(){
+           $(".extended_open").show();
+           $(".extended_close").hide();
+           $(".events-hide").hide();
+           $('#manage_users').fadeIn();
+
+			// Stop it here
+			return false;
+
+		});
+
 		$("#btn_select_create_event_points").click(function(){
 
 			$(".mapping-canvas, #map-info-block, .overlay").hide();
@@ -411,6 +423,7 @@
 			}, 500, function() {
 			
 				// Done !
+				$(".users-hide").hide();
 				$(".events-hide").hide();
 				$(block_str).fadeIn();
 

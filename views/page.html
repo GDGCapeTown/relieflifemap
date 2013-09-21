@@ -45,6 +45,7 @@
 							{% if user %}
 
 							<a id="btn_create_event" style="margin-right:7px;" href="#" class="btn btn-primary btn-small">Create</a>
+							<a id="btn_manage_users" style="margin-right:7px;" href="#" class="btn btn-primary btn-small">Users</a>
 							<a href="/logout" class="btn btn-danger btn-small">Logout</a>
 
 							{% else %}
@@ -106,6 +107,35 @@
 					</div>
 
 				</div>
+
+				<div id="manage_users" class="users-hide" style="display:none;">
+
+					<div style="margin: 15px;">
+
+						<h1 style="">Manage Users</h1>
+
+							<div style="float:left;width: 50%;margin:0;padding:0;">
+
+						        <p style="">Add a user (must be a Google account email)</p>
+
+                                <form>
+
+								<input id="txt_create_user" type="text" class="" placeholder="Name" style="margin: 0;margin-bottom: 10px;" />
+								<div class="clearfix"></div>
+
+								<input id="txt_create_useremail" type="text" class="" placeholder="Email" style="margin: 0;margin-bottom: 10px;" />
+								<div class="clearfix"></div>
+
+								<a href="javascript:void(0);" id="btn_select_create_event_points" class="btn btn-primary btn-large">Add</a>
+
+                                </form>
+
+							</div>
+
+					</div>
+
+				</div>
+
 
 				{% endif %}
 
