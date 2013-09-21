@@ -20,7 +20,7 @@ import dal
 from handlers.homepage import HomepageHandler
 from handlers.auth import LoginHandler, PostLoginHandler, FailedLoginHandler, LogoutHandler
 from handlers.events import ListAPIEventsHandler, ListEventsHandler, DeleteEventsHandler, SaveEventsHandler, DisableEventsHandler
-from handlers.users import ListUserHandler, CreateUserHandler, DeleteUserHandler
+from handlers.users import ListUserHandler, CreateUserHandler, DeleteUserHandler, ListAPIUserHandler
 
 config = {}
 config['webapp2_extras.sessions'] = {
@@ -40,6 +40,7 @@ app = webapp2.WSGIApplication([
 								('/events/disable/(\d+)', DisableEventsHandler),
 								('/events/save', SaveEventsHandler),
 								('/events/delete/(\d+)', DeleteEventsHandler),
+								('/users.json', ListAPIUserHandler),
                                 ('/users', ListUserHandler),
                                 ('/users/create', CreateUserHandler),
                                 ('/users/delete/(\d+)', DeleteUserHandler),

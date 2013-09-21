@@ -261,10 +261,26 @@
 
 	};
 
-	/**
-	* Setup the UI bindings
-	**/
-		$("#delete-user").click(function(){
+	var get_users = function() {
+
+		// Contact the server
+		$.ajax({
+			url: '/users.json',
+			uri: '/users.json',
+			'method': 'get',
+			'dataType': 'json',
+			'success': function(data_obj) {
+					html = "";
+					$(data_obj).each(function() {
+					var user_obj = this;
+					html = html + "<span>" + user_obj.name + "</span><span>" + user_obj.email + "</span>";
+					html = html + '<a data-user-id="' + user_obj.id + '" href="javascript:void(0);" class="delete-user"> Delete </a>';
+					html = html + "<br />";
+					});
+					$('#users-list').html(html);
+
+					$(".delete-user").unbind();
+					$(".delete-user").click(function(){
 								var id = $(this).attr('data-user-id');
 
                                 $.ajax({
@@ -276,12 +292,24 @@
                                     'success': function() {
 
                                         // Done !
+										get_users();
                                     },
                                     'error': function(){}
 
 
                                 });
+					});
+			},
+			'error': function(data_obj) { },
+			'failure': function(data_obj) { }
+
 		});
+
+	};
+
+	/**
+	* Setup the UI bindings
+	**/
 
 	var handle_binding_setup = function() {
 
@@ -339,6 +367,7 @@
            $(".extended_close").hide();
            $(".events-hide").hide();
            $('#manage_users').fadeIn();
+		   get_users();
 
 			// Stop it here
 			return false;
@@ -358,19 +387,7 @@
                                         email: email,
                                     },
                                     'success': function() {
-
-                                        // Done !
-                                        header_hide();
-                                        $(".mapping-canvas").hide();
-                                        $("#map-canvas,#map-info-block,.overlay").show();
-
-                                        handle_extended_view_close('#events-listing', function(){
-
-                                            // Update list
-                                            handle_center_change_of_map();
-
-                                        });
-
+										get_users();
                                     },
                                     'error': function(){}
 
