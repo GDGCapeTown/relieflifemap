@@ -216,6 +216,7 @@ class SaveEventsHandler(webapp2.RequestHandler):
 		event_obj.reach = int( str(self.request.POST.get('reach')).strip() )
 		event_obj.description = str(self.request.POST.get('description')).strip()
 		event_obj.how_to_help = str(self.request.POST.get('how_to_help')).strip()
+		event_obj.date_of_incident = str(self.request.POST.get('date')).strip()
 		event_obj.category = str(self.request.POST.get('category')).strip()
 		event_obj.active = True
 		event_obj.points = '' + '@'.join(point_objs)

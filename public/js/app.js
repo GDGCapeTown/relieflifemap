@@ -441,6 +441,13 @@
 
 										handle_extended_view_close('#events-listing', function(){
 
+											$("#txt_create_headline").val('');
+											$("#txt_create_reach").val('');
+											$("#txt_create_date").val('');
+											$("#txt_create_desc").val('');
+											$("#txt_create_howtohelp").val('');
+											$("#select_event_type").val('');
+
 											// Update list
 											handle_center_change_of_map();
 
