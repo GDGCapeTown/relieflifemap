@@ -12,6 +12,11 @@
 
 		{% block head %}{% endblock %}
 		{% block styles %}{% endblock %}
+
+	<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript" src="http://s.sharethis.com/loader.js"></script>
+
 	</head>
 	<body>
 
@@ -64,7 +69,7 @@
 
 								<a href="javascript:void(0);" id="btn_disable_event" class="btn btn-danger btn-small">Disable (Done)</a>
 
-								<a href="javascript:void(0);" id="btn_edit_event" class="btn btn-primary btn-small">Edit</a>
+								<a href="javascript:void(0);" id="btn_update_event" class="btn btn-primary btn-small">Edit</a>
 
 							</div>
 
@@ -81,6 +86,53 @@
 				</div>
 
 				{% if user %}
+
+				<div id="events-update" class="events-hide" style="display:none;">
+
+					<div style="margin: 15px;">
+
+						<h1 style="">Update Event</h1>
+
+						<form action="#">
+
+							<div style="float:right;width: 50%;margin:0;padding:0;">
+
+								<input id="txt_update_create_reach" type="text" class="big-search" placeholder="Reach (People this affects)" style="margin: 0;margin-bottom: 10px;width: 35%;" />
+								
+								<input id="txt_update_create_date" type="text" class="big-search" placeholder="Date of the Event" style="margin: 0;margin-bottom: 10px;width: 60.5%;display:inline-block;" />
+								<div class="clearfix"></div>
+	
+								<select id="select_update_event_type" type="text" class="big-search" placeholder="Date of the Event" style="margin: 0;margin-bottom: 10px;width: 100%;display:inline-block;">
+
+									<option value="fire">Fire</option>
+									<option value="flood">Flood</option>
+									<option value="civil">Civil</option>
+
+								</select>
+								<div class="clearfix"></div>
+
+								<textarea id="txt_update_create_howtohelp"  placeholder="How to Help nice big description here" style="height: 280px;"></textarea>
+
+							</div>
+
+							<div style="float:left;width: 50%;margin:0;padding:0;">
+
+								<input id="txt_update_create_headline" type="text" class="big-search" placeholder="Headline" style="margin: 0;margin-bottom: 10px;" />
+								<div class="clearfix"></div>
+
+								<textarea id="txt_update_create_desc" placeholder="Description of Event" style="height: 280px;"></textarea>
+
+								<div class="clearfix"></div>
+
+								<a href="javascript:void(0);" id="btn_do_event_update" class="btn btn-primary btn-large">Update</a>
+
+							</div>
+
+						</form>
+
+					</div>
+
+				</div>
 
 				<div id="events-create" class="events-hide" style="display:none;">
 
@@ -166,7 +218,43 @@
 
 				<div id="events-view" class="events-hide" style="display:none;">
 
-					<h1 style="margin: 15px;">Event Details</h1>
+					<h1 style="margin: 15px;" id="event_details_headline">Event Details</h1>
+					
+
+					<div class="row-fluid">
+
+						<div class="col-md-6">
+
+							<h4 id="event_details_reach"></h4>
+
+							<h2>What Happened</h2>
+
+							<p id="event_details_desc"></p>
+
+							<h2>How to Help</h2>
+
+							<p id="event_details_how_to_help"></p>
+
+						</div>
+
+						<div class="col-md-6">
+				<br />
+				<br />
+
+			<div class="fb-comments" style="width:100%:padding-top: 150px;" data-href="https://www.facebook.com/Relief.Life" data-width="470"></div>
+
+			<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=587611854612409";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+	
+						</div>
+
+					</div>
 
 				</div>
 
@@ -204,5 +292,12 @@
 
 		{% block scripts %}{% endblock %}
 		{% block base_scripts %}{% endblock %}
+
+	<script type="text/javascript">stLight.options({publisher: "ur-4cd931df-217d-814c-b327-fd999c64424", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+<script>
+var options={ "publisher": "ur-4cd931df-217d-814c-b327-fd999c64424", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["googleplus", "facebook", "twitter", "linkedin", "pinterest", "email"]}};
+var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
+</script>
+
 	</body>
 </html>

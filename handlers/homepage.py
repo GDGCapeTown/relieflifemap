@@ -29,6 +29,8 @@ class HomepageHandler(webapp2.RequestHandler):
 
 		if user_obj:
 			app_users = dal.get_allowed_users()
+		else:
+			app_users = []
 
 		# Locales
 		locales = {
