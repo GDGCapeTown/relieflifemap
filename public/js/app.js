@@ -510,7 +510,7 @@
 										category: $("#select_event_type").val(),
 										date: date,
 										description: description,
-										howtohelp: howtohelp_txt
+										how_to_help: howtohelp_txt
 
 									},
 									'success': function() {
