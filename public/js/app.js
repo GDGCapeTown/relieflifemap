@@ -211,7 +211,8 @@
 
 		$(".btn_extended_close").click(function(){
 
-			handle_extended_view_close('#events-listing');
+			handle_extended_view_close('#events-listing', function(){});
+            request_queue.drain();
 
 		});
 
@@ -229,6 +230,52 @@
 			return false;
 
 		});
+
+		// Setup our button to create
+		$("#btn_manage_users").click(function(){
+           $(".extended_open").show();
+           $(".extended_close").hide();
+           $(".events-hide").hide();
+           $('#manage_users').fadeIn();
+
+			// Stop it here
+			return false;
+
+		});
+
+        $("#btn_select_create_user").click(function(){
+                                var username = $("#txt_create_user").val();
+                                var email = $("#txt_create_useremail").val();
+
+                                $.ajax({
+
+                                    type: 'post',
+                                    url: '/users/create',
+                                    data: {
+                                        name: username,
+                                        email: email,
+                                    },
+                                    'success': function() {
+
+                                        // Done !
+                                        header_hide();
+                                        $(".mapping-canvas").hide();
+                                        $("#map-canvas,#map-info-block,.overlay").show();
+
+                                        handle_extended_view_close('#events-listing', function(){
+
+                                            // Update list
+                                            handle_center_change_of_map();
+
+                                        });
+
+                                    },
+                                    'error': function(){}
+
+
+                                });
+
+        });
 
 		$("#btn_select_create_event_points").click(function(){
 
@@ -422,7 +469,8 @@
 			}, 500, function() {
 			
 				// Done !
-				$(".events-hide").hide();
+				$("#manage_users").hide();
+				$("#events-create").hide();
 				$(block_str).fadeIn();
 
 				// Callback

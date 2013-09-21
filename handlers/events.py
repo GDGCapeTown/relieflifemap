@@ -41,9 +41,9 @@ class ListAPIEventsHandler(webapp2.RequestHandler):
 		already_in = []
 
 		index = search.Index(name="event_points")
-		query_string = "distance(point, geopoint(" + lat + ", " + lng + ")) > 10000" 
+		query_string = "distance(point, geopoint(" + lat + ", " + lng + ")) < 10000" 
 		try:
-			results = index.search('') 
+			results = index.search(query_string) 
 
 			# Iterate over the documents in the results
 			for scored_document in results:
