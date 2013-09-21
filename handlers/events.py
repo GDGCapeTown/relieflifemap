@@ -63,6 +63,7 @@ class ListAPIEventsHandler(webapp2.RequestHandler):
 							'headline': event_obj.headline,
 							'category': event_obj.category,
 							'description': event_obj.description,
+							'date': event_obj.date_of_incident,
 							'reach': event_obj.reach,
 							'how_to_help': event_obj.how_to_help,
 							'lat': event_obj.location.lat,
@@ -204,8 +205,15 @@ class SaveEventsHandler(webapp2.RequestHandler):
 			# New Event
 			event_obj = schemas.Event()
 
-		lats = str(self.request.POST.get('lat')).strip().split(',')
-		lngs = str(self.request.POST.get('lng')).strip().split(',')
+		if self.request.POST.get('lat') != None:
+
+			lats = str(self.request.POST.get('lat')).strip().split(',')
+			lngs = str(self.request.POST.get('lng')).strip().split(',')
+
+		else:
+
+			lats = []
+			lngs = []
 
 		point_objs = []
 		for i in range(0,len(lats)):
@@ -220,29 +228,34 @@ class SaveEventsHandler(webapp2.RequestHandler):
 		event_obj.category = str(self.request.POST.get('category')).strip()
 		event_obj.active = True
 		event_obj.points = '' + '@'.join(point_objs)
-		event_obj.location = db.GeoPt(lat=float(lats[0]),lon=float(lngs[0]))
+
+		if len(lats) > 0:
+			event_obj.location = db.GeoPt(lat=float(lats[0]),lon=float(lngs[0]))
+
 		event_obj.put()
 
 		indexes_to_save = []
 
-		for i in range(0,len(lats)):
+		if len(lats) > 0:
 
-			plat = lats[i]
-			plng = lngs[i]
+			for i in range(0,len(lats)):
 
-			event_index_obj = search.Document(
+				plat = lats[i]
+				plng = lngs[i]
 
-				fields=[
+				event_index_obj = search.Document(
 
-					search.TextField(name='event', value=str(event_obj.key().id())),
-					search.GeoField(name='point', value=search.GeoPoint( float( plat ) , float(plng)  ))
-				
-				]
-			)
+					fields=[
 
-			# ADd to batch that we will add
-			index.put(event_index_obj)
-			# indexes_to_save.append(event_index_obj)
+						search.TextField(name='event', value=str(event_obj.key().id())),
+						search.GeoField(name='point', value=search.GeoPoint( float( plat ) , float(plng)  ))
+					
+					]
+				)
+
+				# ADd to batch that we will add
+				index.put(event_index_obj)
+				# indexes_to_save.append(event_index_obj)
 		
 		# Now we batch save all our indexes
 		# index.put(indexes_to_save)

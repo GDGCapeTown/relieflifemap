@@ -64,7 +64,7 @@
 
 								<a href="javascript:void(0);" id="btn_disable_event" class="btn btn-danger btn-small">Disable (Done)</a>
 
-								<a href="javascript:void(0);" id="btn_edit_event" class="btn btn-primary btn-small">Edit</a>
+								<a href="javascript:void(0);" id="btn_update_event" class="btn btn-primary btn-small">Edit</a>
 
 							</div>
 
@@ -81,6 +81,53 @@
 				</div>
 
 				{% if user %}
+
+				<div id="events-update" class="events-hide" style="display:none;">
+
+					<div style="margin: 15px;">
+
+						<h1 style="">Update Event</h1>
+
+						<form action="#">
+
+							<div style="float:right;width: 50%;margin:0;padding:0;">
+
+								<input id="txt_update_create_reach" type="text" class="big-search" placeholder="Reach (People this affects)" style="margin: 0;margin-bottom: 10px;width: 35%;" />
+								
+								<input id="txt_update_create_date" type="text" class="big-search" placeholder="Date of the Event" style="margin: 0;margin-bottom: 10px;width: 60.5%;display:inline-block;" />
+								<div class="clearfix"></div>
+	
+								<select id="select_update_event_type" type="text" class="big-search" placeholder="Date of the Event" style="margin: 0;margin-bottom: 10px;width: 100%;display:inline-block;">
+
+									<option value="fire">Fire</option>
+									<option value="flood">Flood</option>
+									<option value="civil">Civil</option>
+
+								</select>
+								<div class="clearfix"></div>
+
+								<textarea id="txt_update_create_howtohelp"  placeholder="How to Help nice big description here" style="height: 280px;"></textarea>
+
+							</div>
+
+							<div style="float:left;width: 50%;margin:0;padding:0;">
+
+								<input id="txt_update_create_headline" type="text" class="big-search" placeholder="Headline" style="margin: 0;margin-bottom: 10px;" />
+								<div class="clearfix"></div>
+
+								<textarea id="txt_update_create_desc" placeholder="Description of Event" style="height: 280px;"></textarea>
+
+								<div class="clearfix"></div>
+
+								<a href="javascript:void(0);" id="btn_do_event_update" class="btn btn-primary btn-large">Update</a>
+
+							</div>
+
+						</form>
+
+					</div>
+
+				</div>
 
 				<div id="events-create" class="events-hide" style="display:none;">
 
@@ -164,7 +211,32 @@
 
 				<div id="events-view" class="events-hide" style="display:none;">
 
-					<h1 style="margin: 15px;">Event Details</h1>
+					<h1 style="margin: 15px;" id="event_details_headline">Event Details</h1>
+					
+
+					<div class="row-fluid">
+
+						<div class="col-md-6">
+
+							<h4 id="event_details_reach"></h4>
+
+							<h2>What Happened</h2>
+
+							<p id="event_details_desc"></p>
+
+							<h2>How to Help</h2>
+
+							<p id="event_details_how_to_help"></p>
+
+						</div>
+
+						<div class="col-md-6">
+
+							<p style="margin-top: 150px;text-align:center;">testing</p>
+	
+						</div>
+
+					</div>
 
 				</div>
 

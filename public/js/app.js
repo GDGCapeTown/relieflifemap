@@ -57,7 +57,7 @@
 						<h4>' + event_obj.headline + '</h4> \
 						<span class="reach"> \
 							<img src="/img/reach.png" /> \
-							<h6>' + event_obj.reach + ' people</h6> \
+							<h6>' + event_obj.reach + ' people affected</h6> \
 						</span> \
 					</a>';
 
@@ -160,7 +160,12 @@
 	**/
 	var view_event_open = function(view_obj) {
 
-		$("#block_event_edit").show();
+		$("#event_details_headline").text(view_obj.headline);
+		$("#event_details_desc").text(view_obj.description);
+		$("#event_details_how_to_help").text(view_obj.how_to_help);
+		$("#event_details_reach").text(view_obj.reach + ' People Affected');
+
+		$("#block_event_edit").fadeIn();
 
 		$("#btn_disable_event").unbind();
 		$("#btn_disable_event").click(function(){
@@ -185,6 +190,63 @@
 				});
 
 			}
+
+		});
+
+		$("#btn_update_event").unbind();
+		$("#btn_update_event").click(function(){
+
+			handle_extended_view_open('#events-update', function(){
+
+				$("#txt_update_create_headline").val(view_obj.headline);
+				$("#txt_update_create_desc").text(view_obj.description);
+				$("#txt_update_create_date").val(view_obj.date);
+				$("#select_update_event_type").val(view_obj.category);
+				$("#txt_update_create_reach").val(view_obj.reach);
+				$("#txt_update_create_date").val(view_obj.date);
+				$("#txt_update_create_howtohelp").text(view_obj.how_to_help);
+
+				$("#btn_do_event_update").unbind();
+				$("#btn_do_event_update").click(function(){
+
+					$.ajax({
+
+						type: 'post',
+						url: '/events/save',
+						data: {
+
+							headline: $("#txt_update_create_headline").val(),
+							reach: $("#txt_update_create_reach").val(),
+							category: $("#select_update_event_type").val(),
+							date: $("#txt_update_create_date").val(),
+							description: $("#txt_update_create_desc").val(),
+							how_to_help: $("#txt_update_create_howtohelp").val(),
+							event_id: view_obj.id
+
+						},
+						'success': function() {
+
+							// Done !
+							header_hide();
+							$(".mapping-canvas").hide();
+							$("#map-canvas,#map-info-block,.overlay").show();
+
+							handle_extended_view_close('#events-listing', function(){
+
+								// Update list
+								handle_center_change_of_map();
+
+							});
+
+						},
+						'error': function(){}
+
+
+					});
+
+				});	
+
+			});
 
 		});
 
