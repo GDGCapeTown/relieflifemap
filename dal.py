@@ -14,7 +14,7 @@ import uuid
 import schemas
 
 
-def get_events(active=False, limit=None, offset=0, lat=None, lng=None):
+def get_events(active=False, limit=None, offset=0, lat=None, lng=None,ids=None):
     q = schemas.Event.all()
 
     if active != None:

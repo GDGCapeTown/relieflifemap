@@ -18,13 +18,15 @@ import logging
 #
 class Event(db.Model):
 	headline = db.StringProperty()
+	points = db.StringProperty()
+	category = db.StringProperty()
 	area = db.StringProperty()
 	reach = db.IntegerProperty()
 	active = db.BooleanProperty(default=False)
-	description = db.Text()
-	how_to_help = db.Text()
+	description = db.StringProperty()
+	how_to_help = db.StringProperty()
 	location = db.GeoPtProperty()
-	date_of_incident = db.DateTimeProperty()
+	date_of_incident = db.StringProperty()
 	created = db.DateTimeProperty(auto_now_add=True)
 	lastupdated = db.DateTimeProperty(auto_now_add=True)
 
