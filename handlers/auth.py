@@ -54,6 +54,7 @@ class PostLoginHandler(webapp2.RequestHandler):
 		for dbuser in user_objs:
 			if dbuser.email == user.email():
 				self.redirect('/')
+				return
 
 		if len(user_objs) > 0:
 			self.redirect(users.create_logout_url('/authfailed'))
