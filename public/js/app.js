@@ -3,11 +3,11 @@
 	// Options
 	var mapOptions = {
 
-		center: new google.maps.LatLng(-34.397, 150.644),
-		zoom: 10,
+		center: new google.maps.LatLng(-33.924559942, 18.853225708),
+		zoom: 11,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		maxZoom: 10,
-		minZoom: 10,
+		//maxZoom: 10,
+		//minZoom: 10,
 		zoomControl: false,
 		disableDefaultUI: true
 
@@ -470,7 +470,7 @@
 
 				var drawingManager = new google.maps.drawing.DrawingManager({
 				
-					drawingMode: google.maps.drawing.OverlayType.POLYGON,
+					drawingMode: google.maps.drawing.OverlayType.MARKER,
 					drawingControl: true,
 					drawingControlOptions: {
 					position: google.maps.ControlPosition.TOP_CENTER,
@@ -489,7 +489,7 @@
 				google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
 
 					// Listen for poly
-					if (event.type == google.maps.drawing.OverlayType.POLYGON) {
+					if (event.type == google.maps.drawing.OverlayType.MARKER) {
 
 						var headline = $("#txt_create_headline").val();
 						var reach = $("#txt_create_reach").val();
@@ -497,22 +497,14 @@
 						var description = $("#txt_create_desc").val();
 						var howtohelp_txt = $("#txt_create_howtohelp").val();
 
-						var path_obj = event.overlay.getPaths().getArray();
-						if(path_obj) {
+                        var position = event.overlay.getPosition();
+						if(position) {
 
-							var paths = path_obj[0];
-							if(paths) {
-
-								paths = paths.getArray();
 								var lats = [];
 								var lngs = [];
 
-								paths.forEach(function(path_obj){
-
-									lats.push(path_obj.lat());
-									lngs.push(path_obj.lng());
-
-								});
+    							lats.push(position.lat());
+								lngs.push(position.lng());
 
 								$.ajax({
 
@@ -558,8 +550,6 @@
 								});
 
 							}
-
-						}
 
 					}
 
@@ -715,18 +705,12 @@
 
 		if(!events_marked[event_id]) {
 
-			// Create a new polygon
-			var new_plot = new google.maps.Polygon({
+			var new_plot = new google.maps.Marker({
 
-				paths: points,
-				strokeColor: border_color,
-				strokeOpacity: 0.8,
-				strokeWeight: 2,
-				fillColor: fill_color,
-				fillOpacity: 0.50
+				position: points[0],
+                map: main_map,
 
 			});
-			new_plot.setMap(main_map);
 
 			// Set the polygon
 			events_marked[event_id] = new_plot;
