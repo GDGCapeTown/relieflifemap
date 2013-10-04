@@ -51,6 +51,7 @@
 
 							<a id="btn_create_event" style="margin-right:7px;" href="#" class="btn btn-primary btn-small">Create</a>
 							<a id="btn_manage_users" style="margin-right:7px;" href="#" class="btn btn-primary btn-small">Users</a>
+							<a id="btn_all_events" style="margin-right:7px;" href="#" class="btn btn-primary btn-small">All Events</a>
 							<a href="/logout" class="btn btn-danger btn-small">Logout</a>
 
 							{% else %}
@@ -67,7 +68,7 @@
 
 							<div id="block_event_edit" class="admin-event-actions" style="display:inline-block;">
 
-								<a href="javascript:void(0);" id="btn_disable_event" class="btn btn-danger btn-small">Disable (Done)</a>
+								<a href="javascript:void(0);" id="btn_disable_event" class="btn btn-danger btn-small">Event Resolved</a>
 
 								<a href="javascript:void(0);" id="btn_update_event" class="btn btn-primary btn-small">Edit</a>
 
@@ -173,7 +174,7 @@
 
 								<div class="clearfix"></div>
 
-								<a href="javascript:void(0);" id="btn_select_create_event_points" class="btn btn-small ">Next - select your map marker</a>
+								<a href="javascript:void(0);" id="btn_select_create_event_points" class="btn btn-primary btn-small ">Next - select your map marker</a>
 
 							</div>
 
@@ -211,6 +212,12 @@
 
 					</div>
 
+				</div>
+
+				<div id="all_events" class="users-hide" style="display:none;">
+					<div style="margin: 15px;">
+						<h1 style="">All events</h1>
+					</div>
 				</div>
 
 

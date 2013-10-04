@@ -315,13 +315,34 @@
 			uri: '/events.json?' + uri_params.join('&'),
 			'method': 'get',
 			'dataType': 'json',
-			'success': function(data_obj) { fn(null, data_obj); },
+			'success': function(data_obj) { },
 			'error': function(data_obj) { fn(data_obj); },
 			'failure': function(data_obj) { fn(data_obj); }
 
 		});
 
 	};
+
+    var get_all_events = function() {
+        $.ajax({
+			url: '/allevents.json?',
+			uri: '/allevents.json?',
+			'method': 'get',
+			'dataType': 'json',
+			'success': function(data_obj) {
+			    html = "";
+				$(data_obj).each(function() {
+					var data_obj = this;
+					html = html + "<span>" + data_obj.headline + "</span><span>" + data_obj.description + "</span>";
+					html = html + '<a data-data-id="' + data_obj.id + '" href="javascript:void(0);" class="delete-data"> Delete </a>';
+					html = html + "<br />";
+                });
+				$('#all_events').html(html);
+             },
+			'error': function(data_obj) {},
+			'failure': function(data_obj) {}
+        });
+    }
 
 	var get_users = function() {
 
@@ -334,10 +355,10 @@
 			'success': function(data_obj) {
 					html = "";
 					$(data_obj).each(function() {
-					var user_obj = this;
-					html = html + "<span>" + user_obj.name + "</span><span>" + user_obj.email + "</span>";
-					html = html + '<a data-user-id="' + user_obj.id + '" href="javascript:void(0);" class="delete-user"> Delete </a>';
-					html = html + "<br />";
+					    var user_obj = this;
+					    html = html + "<span>" + user_obj.name + "</span><span>" + user_obj.email + "</span>";
+					    html = html + '<a data-user-id="' + user_obj.id + '" href="javascript:void(0);" class="delete-user"> Delete </a>';
+					    html = html + "<br />";
 					});
 					$('#users-list').html(html);
 
@@ -408,14 +429,21 @@
 
 		});
 
+        //View all events button
+        $("#btn_all_events").click(function() {
+		    handle_extended_view_open('#all_events', function(){
+			});
+
+            get_all_events();
+			// Stop it here
+			return false;
+        });
+
 		// Setup our button to create
 		$("#btn_create_event").click(function(){
 
 			// Force it open
 			handle_extended_view_open('#events-create', function(){
-
-				// Set
-
 			});
 
 			// Stop it here
@@ -653,6 +681,7 @@
 				// Done !
 				$("#manage_users").hide();
 				$("#events-create").hide();
+				$("#all_events").hide();
 				$(block_str).fadeIn();
 
 				// Callback
