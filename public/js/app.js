@@ -86,7 +86,7 @@
 				} 
 
 				// Render the view
-				handle_render_mark(event_obj.id, points, watermark, watermark);
+				handle_render_mark(event_obj.id, points, watermark, watermark, event_obj.category);
 
 			});
 
@@ -331,11 +331,16 @@
 			'method': 'get',
 			'dataType': 'json',
 			'success': function(data_obj) {
-			    html = "";
+                var html = "<style>span{float:left;width:150px;}</style>";
+				html = html + "<div><span>Category</span><span>Active</span><span>Headline</span><span>Area</span><span>People affected</span>";
+                html = html + "<span>Date of incident</span></div><br />";
 				$(data_obj).each(function() {
 					var data_obj = this;
-					html = html + "<span>" + data_obj.headline + "</span><span>" + data_obj.description + "</span>";
-					html = html + '<a data-data-id="' + data_obj.id + '" href="javascript:void(0);" class="delete-data"> Delete </a>';
+                    console.log(data_obj.active);
+					html = html + "<span>" + data_obj.category + "</span><span>" + data_obj.active + "</span><span>" + data_obj.headline + "</span>";
+					html = html + "<span>" + data_obj.area + "</span><span>" + data_obj.reach + "</span>";
+					html = html + "<span>" + data_obj.date_of_incident + "</span>";
+					//html = html + '<a data-data-id="' + data_obj.id + '" href="javascript:void(0);" class="delete-data"> Delete </a>';
 					html = html + "<br />";
                 });
 				$('#all_events').html(html);
@@ -727,13 +732,22 @@
 	/**
 	* Renders a mark on the page
 	**/
-	var handle_render_mark = function(event_id, points, border_color, fill_color) {
+	var handle_render_mark = function(event_id, points, border_color, fill_color, category) {
 
 		if(!events_marked[event_id]) {
+
+            var icon;
+			if(category == 'fire')
+                icon = new google.maps.MarkerImage("img/fire.png",null,null,null,new google.maps.Size(30, 40));
+            else if (category == 'flood')
+                icon = new google.maps.MarkerImage("img/flood.png",null,null,null,new google.maps.Size(30, 40));
+            else if (category == 'civil')
+                icon = new google.maps.MarkerImage("img/civil.png",null,null,null,new google.maps.Size(30, 40));
 
 			var new_plot = new google.maps.Marker({
 
 				position: points[0],
+                icon: icon,
                 map: main_map,
 
 			});

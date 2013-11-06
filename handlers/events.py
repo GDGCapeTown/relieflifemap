@@ -92,6 +92,7 @@ class ListAllAPIEventsHandler(webapp2.RequestHandler):
             output_event.append( {
                 'id': event.key().id(),
                 'headline': event.headline,
+                'active': event.active,
                 'category': event.category,
                 'description': event.description,
                 'date': event.date_of_incident,
