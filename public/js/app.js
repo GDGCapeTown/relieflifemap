@@ -23,16 +23,17 @@
 	var event_objs_currently_shown = [];
 
 	// The queue
-	var request_queue = async.queue(function (task, callback) {
-
-		get_events_by_filter(task.query, task.lat, task.lng, function(err, eventing_objs){
-
-			event_objs_currently_shown = eventing_objs;
-			callback();
-
-		});
-
-	}, 1);
+	var request_queue = async.queue(
+        //worker
+        function (task, callback) {
+		    get_events_by_filter(task.query, task.lat, task.lng, 
+                function(eventing_objs){
+			        event_objs_currently_shown = eventing_objs;
+                }
+            );
+		    callback();
+    	},
+    1);
 
 	// Render the items
 	request_queue.drain = function() {
@@ -315,7 +316,7 @@
 			uri: '/events.json?' + uri_params.join('&'),
 			'method': 'get',
 			'dataType': 'json',
-			'success': function(data_obj) { },
+			'success': function(data_obj) { fn(data_obj); },
 			'error': function(data_obj) { fn(data_obj); },
 			'failure': function(data_obj) { fn(data_obj); }
 
@@ -607,14 +608,10 @@
 
 			// Render !
 			request_queue.push({
-
 				lat: latlng.lat,
 				lng: latlng.lng,
 				query: ''
-
 			}, function(err){
-
-				// Bla !
 
 			});
 
