@@ -53,14 +53,7 @@
 
 			$(event_objs_currently_shown).each(function(){
 				var event_obj = this;
-
-				html = html + '<a data-id="' + event_obj.id + '" data-lng="' + event_obj.lng + '" data-lat="' + event_obj.lat + '" href="#" class="event-list-block"> \
-						<h4>' + event_obj.headline + '</h4> \
-						<span class="reach"> \
-							<img src="/img/reach.png" /> \
-							<h6>' + event_obj.reach + ' people affected</h6> \
-						</span> \
-					</a>';
+				var image;
 
 				var points = [];
 
@@ -74,16 +67,27 @@
 				if(event_obj.category == 'fire') {
 
 					watermark = '#FF0000';
+					image = "img/fire.png";
 
 				} else if(event_obj.category == 'flood') {
 
 					watermark = '#3878c7';
+					image = "img/flood.png";
 
 				} else if(event_obj.category == 'civil') {
 
 					watermark = '#eec956';
+					image = "img/civil.png";
 
-				} 
+				}
+
+				html = html + '<a data-id="' + event_obj.id + '" data-lng="' + event_obj.lng + '" data-lat="' + event_obj.lat + '" href="#" class="event-list-block"> \
+						<h4>' + event_obj.headline + '</h4> \
+						<span class="reach"> \
+							<img src="' + image + '" /> \
+							<h6>' + event_obj.reach + ' people affected</h6> \
+						</span> \
+					</a>';
 
 				// Render the view
 				handle_render_mark(event_obj.id, points, watermark, watermark, event_obj.category);
@@ -92,6 +96,7 @@
 
 			$("#events-listing").html(html);
 			$("#events-listing").show();
+			$("#events-legend").show();
 
 		} else {
 
@@ -100,6 +105,7 @@
 
 			$("#events-listing").html('');
 			$("#events-listing").hide();
+			$("#events-legend").hide();
 
 		}
 
@@ -736,18 +742,20 @@
 
 		if(!events_marked[event_id]) {
 
-            var icon;
+			var icon;
+
 			if(category == 'fire')
-                icon = new google.maps.MarkerImage("img/fire.png",null,null,null,new google.maps.Size(30, 40));
+                icon = new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/red-dot.png",null,null,null,new google.maps.Size(40, 40));
             else if (category == 'flood')
-                icon = new google.maps.MarkerImage("img/flood.png",null,null,null,new google.maps.Size(30, 40));
+                icon = new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/blue-dot.png",null,null,null,new google.maps.Size(40, 40));
             else if (category == 'civil')
-                icon = new google.maps.MarkerImage("img/civil.png",null,null,null,new google.maps.Size(30, 40));
+                icon = new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/purple-dot.png",null,null,null,new google.maps.Size(40, 40));
+            
 
 			var new_plot = new google.maps.Marker({
 
 				position: points[0],
-                icon: icon,
+				icon: icon,
                 map: main_map,
 
 			});

@@ -43,9 +43,9 @@
 
 				<div id="map-info-block-inner-header">
 
-					<div style="margin: 15px;">
+					<div style="margin:15px;">
 
-						<div class="extended_close" style="float:right;">
+						<div class="extended_close" style="float:left;">
 
 							{% if user %}
 
@@ -56,9 +56,17 @@
 
 							{% else %}
 
-							<a style="" href="/signin" class="btn btn-primary btn-small">Signin</a>
+							<div>
+								<a style="position: absolute; bottom:10px;" href="/signin" class="btn btn-primary btn-small">Admin</a>
+							</div>
 
 							{% endif %}
+
+
+							<!-- <div style="position: absolute; top:60px;"> -->
+								<!-- <a href="http://www.relieflife.org" ><img src="http://relieflife.org/images/structure/logo.jpg" style="height:46px;" /></a> -->
+							<!-- </div> -->
+
 
 						</div>
 
@@ -79,8 +87,6 @@
 							<a href="javascript:void(0);" class="btn btn-danger btn-small btn_extended_close">Close</a>
 
 						</div>
-
-						<img src="http://relieflife.org/images/structure/logo.jpg" style="height:46px;" />
 
 					</div>
 
@@ -268,7 +274,7 @@
 				<div id="events-loading" class="events-hide" style="display:none;">
 
 					<center>
-						<img src="http://relieflife.org/images/structure/logo.jpg" style="margin-top: 150px;" />
+						<a href="http://www.relieflife.org" ><img src="http://relieflife.org/images/structure/logo.jpg" style="margin-top: 150px;" /></a>
 						<h3>Loading disasters</h3>
 					</center>
 
@@ -276,10 +282,18 @@
 
 				<div id="events-listing" style="display:none;" class="events-hide">
 				</div>
+				<div id="events-legend" style="display:none; text-align:center;" class="events-hide">
+						<img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png" />
+						- Fire
+						<img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" />
+						- Flood
+						<img src="http://maps.google.com/mapfiles/ms/icons/purple-dot.png" />
+						- Civil unrest
+				</div>
 
-				<div id="events-none" style="display:none;" class="events-hide">
+				<div id="events-none" style="display:none; padding-top:20px;" class="events-hide">
 					<center>
-						<img src="http://relieflife.org/images/structure/logo.jpg" style="margin-top: 150px;" />
+						<a href="http://www.relieflife.org" ><img src="http://relieflife.org/images/structure/logo.jpg" style="margin-top: 150px;" /></a>
 						<h3>No disasters, happy day</h3>
 					</center>
 				</div>
